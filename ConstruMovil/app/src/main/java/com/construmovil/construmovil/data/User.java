@@ -48,7 +48,7 @@ public class User {
 
     /**
      * Method that returns the Username.
-     * @return a string with the id of the person
+     * @return a string with the username of the user
      */
     public String getUserName() {
         return this.userName;
