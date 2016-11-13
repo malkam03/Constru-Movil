@@ -62,7 +62,7 @@ public class ClientsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cursor currentItem = (Cursor) mClientsAdapter.getItem(i);
-                String currentLawyerId = currentItem.getString(
+                String currentClientId = currentItem.getString(
                         currentItem.getColumnIndex(PersonEntry.ID));
 
                 showDetailScreen(currentClientId);
@@ -90,7 +90,7 @@ public class ClientsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (Activity.RESULT_OK == resultCode) {
             switch (requestCode) {
-                case AddEditClientActivity.REQUEST_ADD_LAWYER:
+                case AddEditClientActivity.REQUEST_ADD_CLIENT:
                     showSuccessfullSavedMessage();
                     loadClients();
                     break;
