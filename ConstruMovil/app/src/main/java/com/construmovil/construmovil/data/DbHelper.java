@@ -39,9 +39,7 @@ public class DbHelper extends SQLiteOpenHelper{
         // ***************UserRol TABLE*************************//
         pDb.execSQL("CREATE TABLE " + UserRolEntry.TABLE_NAME + " (" +
                     UserRolEntry.IDRol + " TEXT UNIQUE NOT NULL," +
-                    UserEntry.UserName + " TEXT NOT NULL,"+
-                    "FOREING KEY("+PersonEntry.UserName+") REFERENCES "+
-                    UserEntry.TABLE_NAME+"("+UserEntry.UserName+"))");
+                    UserRolEntry.UserName + " TEXT NOT NULL)");
         // ***************PERSON TABLE*************************//
         pDb.execSQL("CREATE TABLE " + PersonEntry.TABLE_NAME + " (" +
                     PersonEntry.ID + " TEXT PRIMARY KEY," +
@@ -51,9 +49,7 @@ public class DbHelper extends SQLiteOpenHelper{
                     PersonEntry.LastName + " TEXT NOT NULL," +
                     PersonEntry.Phone + " TEXT NOT NULL," +
                     PersonEntry.Address + " TEXT NOT NULL," +
-                    PersonEntry.BirthDate + " TEXT NOT NULL," +
-                    "FOREING KEY("+PersonEntry.UserName+") REFERENCES "+
-                    UserEntry.TABLE_NAME+"("+UserEntry.UserName+"))");
+                    PersonEntry.BirthDate + " TEXT NOT NULL)");
         mockData(pDb);
     }
 

@@ -31,7 +31,7 @@ public class AddEditClientActivity extends AppCompatActivity {
             addEditClientFragment = AddEditClientFragment.newInstance(clientId);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.add_edit_lawyer_container, addEditClientFragment)
+                    .add(R.id.add_edit_client_container, addEditClientFragment)
                     .commit();
         }
     }

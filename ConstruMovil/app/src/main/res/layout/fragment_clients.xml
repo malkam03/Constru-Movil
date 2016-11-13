@@ -2,11 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.construmovil.construmovil.clients.clients.ClientsFragment">
+    tools:context="com.construmovil.construmovil.clients.ClientsFragment">
 
     <ListView
         android:id="@+id/clients_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"/>
+        android:divider="@null"
+        tools:listitem="@layout/list_item_clients" />
 </FrameLayout>

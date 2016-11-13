@@ -39,7 +39,6 @@ public class ClientsCursorAdapter extends CursorAdapter {
 
         // Referencias UI.
         TextView nameText = (TextView) view.findViewById(R.id.tv_name);
-        final ImageView avatarImage = (ImageView) view.findViewById(R.id.iv_avatar);
 
         // Get valores.
         String name = cursor.getString(cursor.getColumnIndex(PersonEntry.Name));

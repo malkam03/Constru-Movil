@@ -11,7 +11,82 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Teléfono"
+        android:text="Cédula"
+        android:textColor="?colorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Cedula" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="Usuario"
+        android:textColor="?colorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Usuario" />
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:text="Nombre"
+    android:textColor="?colorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Nombre" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="Primer Apellido"
+        android:textColor="?colorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_middle_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Primer Apellido" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="Segundo Apellido"
+        android:textColor="?colorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_last_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Segundo Apellido" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="Número de Teléfono"
         android:textColor="?colorPrimary" />
 
     <TextView
@@ -19,36 +94,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        tools:text="300 20 1111" />
+        tools:text="Número de Teléfono" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Especialidad"
+        android:text="Dirección"
         android:textColor="?colorPrimary" />
 
     <TextView
-        android:id="@+id/tv_specialty"
+        android:id="@+id/tv_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        tools:text="Abogado penalista" />
+        tools:text="Dirección" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Biografía"
+        android:text="Fecha de Nacimiento"
         android:textColor="?colorPrimary" />
 
     <TextView
-        android:id="@+id/tv_bio"
+        android:id="@+id/tv_birth_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        tools:text="@string/large_text" />
+        tools:text="Fecha de Nacimiento" />
 
 </LinearLayout>

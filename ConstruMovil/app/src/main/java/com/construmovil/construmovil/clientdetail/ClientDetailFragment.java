@@ -37,16 +37,14 @@ public class ClientDetailFragment extends Fragment {
     private String mClientId;
 
     private CollapsingToolbarLayout mCollapsingView;
-    private ImageView mAvatar;
+    private TextView mId;
+    private TextView mUser;
+    private TextView mName;
+    private TextView mMiddleName;
+    private TextView mLastName;
     private TextView mPhoneNumber;
-    private TextView mSpeciality;
-    private TextView mBio;
-
-    private TextView mCedula;
-    private TextView mUsuario;
-    private TextView mTelefono;
-    private TextView mDireccion;
-    private TextView mFNacimiento;
+    private TextView mAddress;
+    private TextView mBirthDate;
 
     private DbHelper mDbHelper;
 
@@ -83,13 +81,17 @@ public class ClientDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        SINTERMINAR;
+
         View root = inflater.inflate(R.layout.fragment_client_detail, container, false);
         mCollapsingView = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
-        mAvatar = (ImageView) getActivity().findViewById(R.id.iv_avatar);
+        mId = (TextView) root.findViewById(R.id.tv_id);
+        mUser = (TextView) root.findViewById(R.id.tv_user);
+        mName = (TextView) root.findViewById(R.id.tv_name);
+        mMiddleName = (TextView) root.findViewById(R.id.tv_middle_name);
+        mLastName = (TextView) root.findViewById(R.id.tv_last_name);
         mPhoneNumber = (TextView) root.findViewById(R.id.tv_phone_number);
-        mSpeciality = (TextView) root.findViewById(R.id.tv_specialty);
-        mBio = (TextView) root.findViewById(R.id.tv_bio);
+        mAddress = (TextView) root.findViewById(R.id.tv_address);
+        mBirthDate = (TextView) root.findViewById(R.id.tv_birth_date);
         mDbHelper = new DbHelper(getActivity());
 
         loadClient();
@@ -126,11 +128,14 @@ public class ClientDetailFragment extends Fragment {
 
     private void showClient(Person client) {
         mCollapsingView.setTitle(client.getName() + client.getMiddleName() + client.getLastName());
-        mCedula.setText(client.getId());
-        mUsuario.setText(client.getUserName());
+        mId.setText(client.getId());
+        mUser.setText(client.getUserName());
+        mName.setText(client.getName());
+        mMiddleName.setText(client.getMiddleName());
+        mLastName.setText(client.getLastName());
         mPhoneNumber.setText(client.getPhoneNumber());
-        mDireccion.setText(client.getAddress());
-        mFNacimiento.setText(client.getBirthDate());
+        mAddress.setText(client.getAddress());
+        mBirthDate.setText(client.getBirthDate());
     }
 
     private void showEditScreen() {
