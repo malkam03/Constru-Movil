@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.construmovil.construmovil.R;
 import com.construmovil.construmovil.addeditclient.AddEditClientActivity;
 import com.construmovil.construmovil.data.Person;
@@ -44,6 +43,7 @@ public class ClientDetailFragment extends Fragment {
     private TextView mBio;
 
     private TextView mCedula;
+    private TextView mUsuario;
     private TextView mTelefono;
     private TextView mDireccion;
     private TextView mFNacimiento;
@@ -82,6 +82,8 @@ public class ClientDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        SINTERMINAR;
         View root = inflater.inflate(R.layout.fragment_client_detail, container, false);
         mCollapsingView = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
         mAvatar = (ImageView) getActivity().findViewById(R.id.iv_avatar);
@@ -96,7 +98,7 @@ public class ClientDetailFragment extends Fragment {
     }
 
     private void loadClient() {
-        new GetClientByIdTask().execut();
+        new GetClientByIdTask().execute();
     }
 
     @Override
@@ -114,7 +116,7 @@ public class ClientDetailFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ClientsFragment.REQUEST_UPDATE_DELETE_LAWYER) {
+        if (requestCode == ClientsFragment.REQUEST_UPDATE_DELETE_CLIENT) {
             if (resultCode == Activity.RESULT_OK) {
                 getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();
@@ -123,14 +125,12 @@ public class ClientDetailFragment extends Fragment {
     }
 
     private void showClient(Person client) {
-        mCollapsingView.setTitle(client.getName());
-        Glide.with(this)
-                .load(Uri.parse("file:///android_asset/" + client.getAvatarUri()))
-                .centerCrop()
-                .into(mAvatar);
+        mCollapsingView.setTitle(client.getName() + client.getMiddleName() + client.getLastName());
+        mCedula.setText(client.getId());
+        mUsuario.setText(client.getUserName());
         mPhoneNumber.setText(client.getPhoneNumber());
-        mSpeciality.setText(client.getSpecialty());
-        mBio.setText(client.getBio());
+        mDireccion.setText(client.getAddress());
+        mFNacimiento.setText(client.getBirthDate());
     }
 
     private void showEditScreen() {
@@ -139,7 +139,7 @@ public class ClientDetailFragment extends Fragment {
         startActivityForResult(intent, ClientsFragment.REQUEST_UPDATE_DELETE_CLIENT);
     }
 
-    private void showLawyersScreen(boolean requery) {
+    private void showClientsScreen(boolean requery) {
         if (!requery) {
             showDeleteError();
         }
@@ -184,7 +184,7 @@ public class ClientDetailFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Integer integer) {
-            showLawyersScreen(integer > 0);
+            showClientsScreen(integer > 0);
         }
 
     }
