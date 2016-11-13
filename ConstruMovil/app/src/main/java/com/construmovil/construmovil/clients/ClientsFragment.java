@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.construmovil.construmovil.R;
+import com.construmovil.construmovil.addeditclient.AddEditClientActivity;
+import com.construmovil.construmovil.clientdetail.ClientDetailActivity;
 import com.construmovil.construmovil.data.DbHelper;
 import static com.construmovil.construmovil.data.PersonContract.PersonEntry;
 
@@ -86,13 +88,39 @@ public class ClientsFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (Activity.RESULT_OK == resultCode) {
+            switch (requestCode) {
+                case AddEditClientActivity.REQUEST_ADD_LAWYER:
+                    showSuccessfullSavedMessage();
+                    loadClients();
+                    break;
+                case REQUEST_UPDATE_DELETE_CLIENT:
+                    loadClients();
+                    break;
+            }
+        }
 
     }
 
     private void loadClients() {
         //Cargar datos
+        new ClientsLoadTask().execute();
+    }
+
+    private void showSuccessfullSavedMessage() {
+        Toast.makeText(getActivity(),
+        "Cliente guardado correctamente", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showAddScreen() {
         Intent intent = new Intent(getActivity(), AddEditClientActivity.class);
         startActivityForResult(intent, AddEditClientActivity.REQUEST_ADD_CLIENT);
+    }
+
+    private void showDetailScreen(String clientId) {
+        Intent intent = new Intent(getActivity(), ClientDetailActivity.class);
+        intent.putExtra(ClientsActivity.EXTRA_CLIENT_ID, clientId);
+        startActivityForResult(intent, REQUEST_UPDATE_DELETE_CLIENT);
     }
 
     private class ClientsLoadTask extends AsyncTask<Void, Void, Cursor> {
