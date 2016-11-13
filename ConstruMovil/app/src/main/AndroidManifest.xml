@@ -11,6 +11,10 @@
         <activity
             android:name=".clients.ClientsActivity"
             android:label="@string/title_activity_clients"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".clientdetail.ClientDetailActivity"
+            android:label="@string/title_activity_client_detail"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

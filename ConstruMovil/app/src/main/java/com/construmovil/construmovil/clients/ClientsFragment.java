@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.construmovil.construmovil.R;
+import com.construmovil.construmovil.data.DbHelper;
+import static com.construmovil.construmovil.data.PersonContract.PersonEntry;
 
 
 /**
@@ -59,7 +61,7 @@ public class ClientsFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cursor currentItem = (Cursor) mClientsAdapter.getItem(i);
                 String currentLawyerId = currentItem.getString(
-                        currentItem.getColumnIndex(GeneralPersonEntry.ID));
+                        currentItem.getColumnIndex(PersonEntry.ID));
 
                 showDetailScreen(currentClientId);
             }
@@ -85,6 +87,29 @@ public class ClientsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+    }
+
+    private void loadClients() {
+        //Cargar datos
+        Intent intent = new Intent(getActivity(), AddEditClientActivity.class);
+        startActivityForResult(intent, AddEditClientActivity.REQUEST_ADD_CLIENT);
+    }
+
+    private class ClientsLoadTask extends AsyncTask<Void, Void, Cursor> {
+
+        @Override
+        protected Cursor doInBackground(Void... voids) {
+            return mDbHelper.getAllPersons();
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            if (cursor != null && cursor.getCount() > 0) {
+                mClientsAdapter.swapCursor(cursor);
+            } else {
+                // Mostrar empty state
+            }
+        }
     }
 
 }

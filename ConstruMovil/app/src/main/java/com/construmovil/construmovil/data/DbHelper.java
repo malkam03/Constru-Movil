@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import static com.construmovil.construmovil.data.PersonContract.PersonEntry;
 import static com.construmovil.construmovil.data.UserContract.UserEntry;
+import static com.construmovil.construmovil.data.UserRolContract.UserRolEntry;
 
 /**
  * Created by Malcolm Davis on 11/12/2016.
@@ -31,6 +32,16 @@ public class DbHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase pDb){
+        // ***************USER TABLE*************************//
+        pDb.execSQL("CREATE TABLE " + UserEntry.TABLE_NAME + " (" +
+                    UserEntry.UserName + " TEXT PRIMARY KEY," +
+                    UserEntry.Password + " TEXT NOT NULL)");
+        // ***************UserRol TABLE*************************//
+        pDb.execSQL("CREATE TABLE " + UserRolEntry.TABLE_NAME + " (" +
+                    UserRolEntry.IDRol + " TEXT UNIQUE NOT NULL," +
+                    UserEntry.UserName + " TEXT NOT NULL,"+
+                    "FOREING KEY("+PersonEntry.UserName+") REFERENCES "+
+                    UserEntry.TABLE_NAME+"("+UserEntry.UserName+"))");
         // ***************PERSON TABLE*************************//
         pDb.execSQL("CREATE TABLE " + PersonEntry.TABLE_NAME + " (" +
                     PersonEntry.ID + " TEXT PRIMARY KEY," +
@@ -40,11 +51,9 @@ public class DbHelper extends SQLiteOpenHelper{
                     PersonEntry.LastName + " TEXT NOT NULL," +
                     PersonEntry.Phone + " TEXT NOT NULL," +
                     PersonEntry.Address + " TEXT NOT NULL," +
-                    PersonEntry.BirthDate + " TEXT NOT NULL)");
-        // ***************USER TABLE*************************//
-        pDb.execSQL("CREATE TABLE " + UserEntry.TABLE_NAME + " (" +
-                    UserEntry.UserName + " TEXT PRIMARY KEY," +
-                    UserEntry.Password + " TEXT NOT NULL)");
+                    PersonEntry.BirthDate + " TEXT NOT NULL," +
+                    "FOREING KEY("+PersonEntry.UserName+") REFERENCES "+
+                    UserEntry.TABLE_NAME+"("+UserEntry.UserName+"))");
         mockData(pDb);
     }
 
@@ -59,6 +68,12 @@ public class DbHelper extends SQLiteOpenHelper{
         MockAdd(pSQLiteDatabase, UserEntry.TABLE_NAME, tmpUser.toContentValues());
         tmpUser = new User("damarce", "1234");
         MockAdd(pSQLiteDatabase, UserEntry.TABLE_NAME, tmpUser.toContentValues());
+        UserRol tmpURol = new UserRol("1", "malkam03");
+        MockAdd(pSQLiteDatabase, UserRolEntry.TABLE_NAME,  tmpURol.toContentValues());
+        tmpURol = new UserRol("2", "arturok");
+        MockAdd(pSQLiteDatabase, UserRolEntry.TABLE_NAME,  tmpURol.toContentValues());
+        tmpURol = new UserRol("3", "damarce");
+        MockAdd(pSQLiteDatabase, UserRolEntry.TABLE_NAME,  tmpURol.toContentValues());
         Person tmpPerson = new Person("702340755", "malkam03",
                 "Malcolm", "Davis", "Steele", "89606261", "Cartago y otras senas", "17/03/1995");
         MockAdd(pSQLiteDatabase, PersonEntry.TABLE_NAME, tmpPerson.toContentValues());
@@ -94,8 +109,8 @@ public class DbHelper extends SQLiteOpenHelper{
 
     /**
      * Method that saves a person data on the database.
-     * @param pPerson
-     * @return
+     * @param pPerson the person data to store into the database.
+     * @return state of the insert query.
      */
     public long savePerson(Person pPerson){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
@@ -104,12 +119,22 @@ public class DbHelper extends SQLiteOpenHelper{
 
     /**
      * Method that saves a User data on the database.
-     * @param pUser
-     * @return
+     * @param pUser the user data to store into the database.
+     * @return state of the insert query.
      */
     public long saveUser(User pUser){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         return sqLiteDatabase.insert(UserEntry.TABLE_NAME, null, pUser.toContentValues());
+    }
+
+    /**
+     * Method that saves a UserRol on the database
+     * @param pURol the user data to store into the database.
+     * @return state of the insert query.
+     */
+    public long saveUserRol(UserRol pURol){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(UserRolEntry.TABLE_NAME, null, pURol.toContentValues());
     }
 
     /**
@@ -145,11 +170,27 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that search for all the roles that a user have on the database.
+     * @return a cursor with the first userRol of the database.
+     */
+    public Cursor getRols(String pUserName) {
+        return getReadableDatabase().query(
+                UserRolEntry.TABLE_NAME,
+                null,
+                UserRolEntry.UserName + " LIKE ?",
+                new String[]{pUserName},
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
      * Method that search for a specific person whom the entered ID corresponds to.
      * @param pID the identifier of the person.
      * @return a cursor with the person that meets the search params.
      */
-    public Cursor getLawyerById(String pID) {
+    public Cursor getPersonById(String pID) {
         Cursor cursor = getReadableDatabase().query(
                 PersonEntry.TABLE_NAME,
                 null,
@@ -193,11 +234,25 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that deletes a specific person whom the entered ID corresponds to.
+     * @param pUserName the username of the user that the rol will be deleted.
+     * @param pIDRol the rol that will be deleted.
+     * @return state of the delete query.
+     */
+    public int deleteUserRol(String pUserName, String pIDRol) {
+        return getWritableDatabase().delete(
+                UserRolEntry.TABLE_NAME,
+                UserRolEntry.UserName + " LIKE ? AND " + UserRolEntry.IDRol+ "LIKE ?",
+                new String[]{pUserName, pIDRol});
+    }
+
+
+    /**
      * Method that deletes a specific user whom the entered username corresponds to.
      * @param pUsername the identifier of the person.
      * @return state of the delete query.
      */
-    public int deleteUsername(String pUsername) {
+    public int deleteUser(String pUsername) {
         return getWritableDatabase().delete(
                 UserEntry.TABLE_NAME,
                 UserEntry.UserName + " LIKE ?",
