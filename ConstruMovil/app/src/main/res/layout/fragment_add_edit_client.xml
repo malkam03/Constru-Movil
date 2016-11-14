@@ -17,9 +17,8 @@
         android:id="@+id/et_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Cedula"
-        android:inputType="text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:hint="Cédula"
+        android:inputType="number"
         tools:text="Cédula" />
 
     <android.support.design.widget.TextInputLayout
@@ -32,9 +31,8 @@
             android:id="@+id/et_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Cedula"
-            android:inputType="number"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:hint="Usuario"
+            android:inputType="text"
             tools:text="Usuario" />
     </android.support.design.widget.TextInputLayout>
 
@@ -64,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Primer Apellido"
-            android:inputType="text"
+            android:inputType="textPersonName"
             tools:text="Primer Apellido" />
     </android.support.design.widget.TextInputLayout>
 
@@ -78,10 +76,9 @@
             android:id="@+id/et_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top|start"
             android:hint="Segundo Apellido"
             android:imeOptions="actionDone"
-            android:inputType="text|textMultiLine"
+            android:inputType="textPersonName"
             tools:text="Segundo Apellido" />
     </android.support.design.widget.TextInputLayout>
 
@@ -95,11 +92,26 @@
             android:id="@+id/et_phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top|start"
             android:hint="Número de Teléfono"
             android:imeOptions="actionDone"
-            android:inputType="text|textMultiLine"
+            android:inputType="text"
             tools:text="Número de Teléfono" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/til_birth_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/et_birth_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fecha de Nacimiento"
+            android:imeOptions="actionDone"
+            android:inputType="datetime"
+            tools:text="Fecha de Nacimiento" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -118,24 +130,6 @@
             android:inputType="text|textMultiLine"
             tools:text="Dirección" />
     </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_birth_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/et_birth_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top|start"
-            android:hint="Fecha de Nacimiento"
-            android:imeOptions="actionDone"
-            android:inputType="text|textMultiLine"
-            tools:text="Fecha de Nacimiento" />
-    </android.support.design.widget.TextInputLayout>
-
 
 
 </LinearLayout>

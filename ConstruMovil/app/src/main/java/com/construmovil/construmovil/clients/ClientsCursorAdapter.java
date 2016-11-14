@@ -13,9 +13,11 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.construmovil.construmovil.R;
 import com.construmovil.construmovil.data.PersonContract.PersonEntry;
-import com.construmovil.construmovil.data.PersonContract;
+
 
 
 /**
@@ -42,6 +44,7 @@ public class ClientsCursorAdapter extends CursorAdapter {
 
         // Get valores.
         String name = cursor.getString(cursor.getColumnIndex(PersonEntry.Name));
+
 
         // Setup.
         nameText.setText(name);

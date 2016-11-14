@@ -109,7 +109,7 @@ public class ClientsFragment extends Fragment {
 
     private void showSuccessfullSavedMessage() {
         Toast.makeText(getActivity(),
-        "Cliente guardado correctamente", Toast.LENGTH_SHORT).show();
+                "Cliente guardado correctamente", Toast.LENGTH_SHORT).show();
     }
 
     private void showAddScreen() {
@@ -139,5 +139,4 @@ public class ClientsFragment extends Fragment {
             }
         }
     }
-
 }

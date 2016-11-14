@@ -34,15 +34,18 @@ public class DbHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase pDb){
         // ***************USER TABLE*************************//
         pDb.execSQL("CREATE TABLE " + UserEntry.TABLE_NAME + " (" +
-                    UserEntry.UserName + " TEXT PRIMARY KEY," +
+                    UserEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                    UserEntry.UserName + " TEXT UNIQUE," +
                     UserEntry.Password + " TEXT NOT NULL)");
         // ***************UserRol TABLE*************************//
         pDb.execSQL("CREATE TABLE " + UserRolEntry.TABLE_NAME + " (" +
+                    UserRolEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                     UserRolEntry.IDRol + " TEXT UNIQUE NOT NULL," +
                     UserRolEntry.UserName + " TEXT NOT NULL)");
         // ***************PERSON TABLE*************************//
         pDb.execSQL("CREATE TABLE " + PersonEntry.TABLE_NAME + " (" +
-                    PersonEntry.ID + " TEXT PRIMARY KEY," +
+                    PersonEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                    PersonEntry.ID + " TEXT UNIQUE," +
                     PersonEntry.UserName + " TEXT UNIQUE NOT NULL," +
                     PersonEntry.Name + " TEXT NOT NULL," +
                     PersonEntry.MiddletName + " TEXT NOT NULL," +
