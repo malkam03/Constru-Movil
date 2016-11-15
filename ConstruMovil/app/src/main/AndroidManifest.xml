@@ -11,7 +11,7 @@
         <activity
             android:name=".clients.ClientsActivity"
             android:label="@string/title_activity_clients"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,15 +19,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".clientdetail.ClientDetailActivity"
+            android:name=".clients.ClientDetailActivity"
             android:label="@string/title_activity_client_detail"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".addeditclient.AddEditClientActivity"
+            android:name=".clients.AddEditClientActivity"
             android:label="@string/title_activity_add_edit_client"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".order.OrderActivity"
+            android:label="@string/title_activity_order"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".order.OrderDetailActivity"
+            android:label="@string/title_activity_order_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".order.AddEditOrderActivity"
+            android:label="@string/title_activity_add_edit_order"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

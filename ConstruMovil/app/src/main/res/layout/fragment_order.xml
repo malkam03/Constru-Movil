@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".clients.ClientsFragment">
+    tools:context=".order.OrderFragment">
 
 
 
     <ListView
-        android:id="@+id/clients_list"
+        android:id="@+id/order_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"

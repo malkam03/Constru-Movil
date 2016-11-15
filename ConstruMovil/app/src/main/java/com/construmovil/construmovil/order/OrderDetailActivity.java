@@ -1,4 +1,4 @@
-package com.construmovil.construmovil.clientdetail;
+package com.construmovil.construmovil.order;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,9 +7,8 @@ import android.view.Menu;
 
 
 import com.construmovil.construmovil.R;
-import com.construmovil.construmovil.clients.ClientsActivity;
 
-public class ClientDetailActivity extends AppCompatActivity {
+public class OrderDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,15 +17,15 @@ public class ClientDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String id = getIntent().getStringExtra(ClientsActivity.EXTRA_CLIENT_ID);
+        String id = getIntent().getStringExtra(OrderActivity.EXTRA_ORDER_ID);
 
-        ClientDetailFragment fragment = (ClientDetailFragment)
+        OrderDetailFragment fragment = (OrderDetailFragment)
                 getSupportFragmentManager().findFragmentById(R.id.client_detail_container);
         if (fragment == null) {
-            fragment = ClientDetailFragment.newInstance(id);
+            fragment = OrderDetailFragment.newInstance(id);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.client_detail_container, fragment)
+                    .add(R.id.order_detail_container, fragment)
                     .commit();
         }
     }

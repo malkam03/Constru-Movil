@@ -1,4 +1,4 @@
-package com.construmovil.construmovil.clients;
+package com.construmovil.construmovil.order;
 
 
 import android.app.Activity;
@@ -17,53 +17,59 @@ import android.widget.Toast;
 
 import com.construmovil.construmovil.R;
 import com.construmovil.construmovil.data.DbHelper;
-import static com.construmovil.construmovil.data.PersonContract.PersonEntry;
-
 
 /**
- * The Clients Fragment of Clients.
- * Use the {@link ClientsFragment#newInstance} factory method to
+ * A simple {@link Fragment} subclass.
+ * Use the {@link OrderFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ClientsFragment extends Fragment {
+public class OrderFragment extends Fragment {
 
-    public static final int REQUEST_UPDATE_DELETE_CLIENT = 2;
+    public static final int REQUEST_UPDATE_DELETE_ORDER = 2;
 
     private DbHelper mDbHelper;
-    private ListView mClientsList;
-    private ClientsCursorAdapter mClientsAdapter;
+    private ListView mOrderList;
+    private OrderCursorAdapter mOrderAdapter;
     private FloatingActionButton mAddButton;
 
-    public ClientsFragment() {
+    public OrderFragment() {
         // Required empty public constructor
     }
 
-    public static ClientsFragment newInstance() {
-        return new ClientsFragment();
+    /**
+     * Use this factory method to create a new instance of a OrderFragment
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment OrderFragment.
+     */
+    public static OrderFragment newInstance() {
+        return new OrderFragment();
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_clients, container, false);
+        View root = inflater.inflate(R.layout.fragment_order, container, false);
 
         //Referencias UI
-        mClientsList = (ListView) root.findViewById(R.id.clients_list);
-        mClientsAdapter = new ClientsCursorAdapter(getActivity(), null);
+        mOrderList = (ListView) root.findViewById(R.id.order_list);
+        mOrderAdapter = new OrderCursorAdapter(getActivity(), null);
         mAddButton = (FloatingActionButton) getActivity().findViewById(R.id.fab);
 
         //Setup
-        mClientsList.setAdapter(mClientsAdapter);
+        mOrderList.setAdapter(mOrderAdapter);
 
         //Eventos
-        mClientsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mOrderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Cursor currentItem = (Cursor) mClientsAdapter.getItem(i);
-                String currentClientId = currentItem.getString(
-                        currentItem.getColumnIndex(PersonEntry.ID));
+                Cursor currentItem = (Cursor) mOrderAdapter.getItem(i);
+                String currentOrderId = currentItem.getString(
+                        currentItem.getColumnIndex(OrderEntry.ID));
 
-                showDetailScreen(currentClientId);
+                showDetailScreen(currentOrderId);
             }
         });
         mAddButton.setOnClickListener(new View.OnClickListener() {
@@ -79,49 +85,48 @@ public class ClientsFragment extends Fragment {
         mDbHelper = new DbHelper(getActivity());
 
         // Carga de datos
-        loadClients();
+        loadOrder();
 
         return root;
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (Activity.RESULT_OK == resultCode) {
             switch (requestCode) {
-                case AddEditClientActivity.REQUEST_ADD_CLIENT:
+                case AddEditOrderActivity.REQUEST_ADD_ORDER:
                     showSuccessfullSavedMessage();
-                    loadClients();
+                    loadOrder();
                     break;
-                case REQUEST_UPDATE_DELETE_CLIENT:
-                    loadClients();
+                case REQUEST_UPDATE_DELETE_ORDER:
+                    loadOrder();
                     break;
             }
         }
 
     }
 
-    private void loadClients() {
+    private void loadOrder() {
         //Cargar datos
-        new ClientsLoadTask().execute();
+        new OrderLoadTask().execute();
     }
 
     private void showSuccessfullSavedMessage() {
         Toast.makeText(getActivity(),
-                "Cliente guardado correctamente", Toast.LENGTH_SHORT).show();
+                "Orden guardada correctamente", Toast.LENGTH_SHORT).show();
     }
 
     private void showAddScreen() {
-        Intent intent = new Intent(getActivity(), AddEditClientActivity.class);
-        startActivityForResult(intent, AddEditClientActivity.REQUEST_ADD_CLIENT);
+        Intent intent = new Intent(getActivity(), AddEditOrderActivity.class);
+        startActivityForResult(intent, AddEditOrderActivity.REQUEST_ADD_ORDER);
     }
 
-    private void showDetailScreen(String clientId) {
-        Intent intent = new Intent(getActivity(), ClientDetailActivity.class);
-        intent.putExtra(ClientsActivity.EXTRA_CLIENT_ID, clientId);
-        startActivityForResult(intent, REQUEST_UPDATE_DELETE_CLIENT);
+    private void showDetailScreen(String orderId) {
+        Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+        intent.putExtra(OrderActivity.EXTRA_ORDER_ID, orderId);
+        startActivityForResult(intent, REQUEST_UPDATE_DELETE_ORDER);
     }
 
-    private class ClientsLoadTask extends AsyncTask<Void, Void, Cursor> {
+    private class OrderLoadTask extends AsyncTask<Void, Void, Cursor> {
 
         @Override
         protected Cursor doInBackground(Void... voids) {
@@ -131,7 +136,7 @@ public class ClientsFragment extends Fragment {
         @Override
         protected void onPostExecute(Cursor cursor) {
             if (cursor != null && cursor.getCount() > 0) {
-                mClientsAdapter.swapCursor(cursor);
+                mOrderAdapter.swapCursor(cursor);
             } else {
                 // Mostrar empty state
             }

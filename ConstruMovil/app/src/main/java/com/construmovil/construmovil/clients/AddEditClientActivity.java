@@ -1,4 +1,4 @@
-package com.construmovil.construmovil.addeditclient;
+package com.construmovil.construmovil.clients;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 
 
 import com.construmovil.construmovil.R;
-import com.construmovil.construmovil.clients.ClientsActivity;
 
 public class AddEditClientActivity extends AppCompatActivity {
 

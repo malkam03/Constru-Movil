@@ -1,4 +1,4 @@
-package com.construmovil.construmovil.addeditclient;
+package com.construmovil.construmovil.clients;
 
 
 import android.app.Activity;
@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.construmovil.construmovil.R;
 import com.construmovil.construmovil.data.Person;
+import com.construmovil.construmovil.data.User;
+import com.construmovil.construmovil.data.UserRol;
 import com.construmovil.construmovil.data.DbHelper;
 
 /**
@@ -34,14 +36,17 @@ public class AddEditClientFragment extends Fragment {
     private FloatingActionButton mSaveButton;
     private TextInputEditText mIdField;
     private TextInputEditText mUserField;
+    private TextInputEditText mPasswordField;
     private TextInputEditText mNameField;
     private TextInputEditText mMiddleNameField;
     private TextInputEditText mLastNameField;
     private TextInputEditText mPhoneNumberField;
     private TextInputEditText mAddressField;
     private TextInputEditText mBirthDateField;
+
     private TextInputLayout mIdLabel;
     private TextInputLayout mUserLabel;
+    private TextInputLayout mPasswordLabel;
     private TextInputLayout mNameLabel;
     private TextInputLayout mMiddleNameLabel;
     private TextInputLayout mLastNameLabel;
@@ -78,6 +83,7 @@ public class AddEditClientFragment extends Fragment {
         mSaveButton = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         mIdField = (TextInputEditText) root.findViewById(R.id.et_id);
         mUserField = (TextInputEditText) root.findViewById(R.id.et_user);
+        mPasswordField = (TextInputEditText) root.findViewById(R.id.et_pass);
         mNameField = (TextInputEditText) root.findViewById(R.id.et_name);
         mMiddleNameField = (TextInputEditText) root.findViewById(R.id.et_middle_name);
         mLastNameField = (TextInputEditText) root.findViewById(R.id.et_last_name);
@@ -87,6 +93,7 @@ public class AddEditClientFragment extends Fragment {
 
         mIdLabel = (TextInputLayout) root.findViewById(R.id.til_id);
         mUserLabel = (TextInputLayout) root.findViewById(R.id.til_user);
+        mPasswordLabel = (TextInputLayout) root.findViewById(R.id.til_pass);
         mNameLabel = (TextInputLayout) root.findViewById(R.id.til_name);
         mMiddleNameLabel = (TextInputLayout) root.findViewById(R.id.til_middle_name);
         mLastNameLabel = (TextInputLayout) root.findViewById(R.id.til_last_name);
@@ -119,7 +126,8 @@ public class AddEditClientFragment extends Fragment {
         boolean error = false;
 
         String id = mIdField.getText().toString();
-        String user = mUserField.getText().toString();
+        String username = mUserField.getText().toString();
+        String password = mPasswordField.getText().toString();
         String name = mNameField.getText().toString();
         String middleName = mMiddleNameField.getText().toString();
         String lastName = mLastNameField.getText().toString();
@@ -127,16 +135,21 @@ public class AddEditClientFragment extends Fragment {
         String address = mAddressField.getText().toString();
         String birthDate = mBirthDateField.getText().toString();
 
+
         if(TextUtils.isEmpty(id)) {
             mIdLabel.setError(getString(R.string.field_error));
             error = true;
         }
-        if(TextUtils.isEmpty(user)) {
+        if(TextUtils.isEmpty(username)) {
             mUserLabel.setError(getString(R.string.field_error));
             error = true;
         }
+        if(TextUtils.isEmpty(password)) {
+            mPasswordLabel.setError(getString(R.string.field_error));
+            error = true;
+        }
         if(TextUtils.isEmpty(name)) {
-            mNameField.setError(getString(R.string.field_error));
+            mNameLabel.setError(getString(R.string.field_error));
             error = true;
         }
         if(TextUtils.isEmpty(middleName)) {
@@ -162,9 +175,15 @@ public class AddEditClientFragment extends Fragment {
         if(error) {
             return;
         }
-        Person client = new Person(id, user, name, middleName,
-                lastName, phoneNumber, address, birthDate);
+
+        User user = new User(username, password);
+        new AddEditUserTask().execute(user);
+
+        Person client = new Person(id, username, name, middleName, lastName, phoneNumber, address, birthDate);
         new AddEditClientTask().execute(client);
+
+        //FALTA CREAR LA INSERSIÓN EN LA TABLA USERROL
+
     }
 
     private void showClientsScreen(Boolean requery) {
@@ -224,18 +243,30 @@ public class AddEditClientFragment extends Fragment {
         protected Boolean doInBackground(Person... clients) {
             if (mClientId != null) {
                 return mDbHelper.updatePerson(clients[0], mClientId) > 0;
-
             } else {
                 return mDbHelper.savePerson(clients[0]) > 0;
             }
-
         }
-
         @Override
         protected void onPostExecute(Boolean result) {
             showClientsScreen(result);
         }
+    }
 
+    private class AddEditUserTask extends AsyncTask<User, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(User... users) {
+            if (mClientId != null) {
+                return mDbHelper.updateUser(users[0], mClientId) > 0;
+            } else {
+                return mDbHelper.saveUser(users[0]) > 0;
+            }
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            showClientsScreen(result);
+        }
     }
 
 }

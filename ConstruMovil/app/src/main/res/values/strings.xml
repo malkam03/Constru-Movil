@@ -101,4 +101,7 @@
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
     <string name="field_error">Ingresa un valor</string>
     <string name="action_delete">Eliminar</string>
+    <string name="title_activity_order">OrderActivity</string>
+    <string name="title_activity_order_detail">Detalle de Orden</string>
+    <string name="title_activity_add_edit_order">Añadir/Editar Orden</string>
 </resources>

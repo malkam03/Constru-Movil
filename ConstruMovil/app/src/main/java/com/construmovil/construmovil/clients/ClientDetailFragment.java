@@ -1,9 +1,8 @@
-package com.construmovil.construmovil.clientdetail;
+package com.construmovil.construmovil.clients;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,18 +11,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.construmovil.construmovil.R;
-import com.construmovil.construmovil.addeditclient.AddEditClientActivity;
 import com.construmovil.construmovil.data.Person;
 import com.construmovil.construmovil.data.DbHelper;
-import com.construmovil.construmovil.clients.ClientsActivity;
-import com.construmovil.construmovil.clients.ClientsFragment;
-
-import com.construmovil.construmovil.R;
 
 /**
  * Clients Detail Fragment.
@@ -127,7 +120,7 @@ public class ClientDetailFragment extends Fragment {
     }
 
     private void showClient(Person client) {
-        mCollapsingView.setTitle(client.getName() + client.getMiddleName() + client.getLastName());
+        mCollapsingView.setTitle(client.getName() + " " + client.getMiddleName() + " " + client.getLastName());
         mId.setText(client.getId());
         mUser.setText(client.getUserName());
         mName.setText(client.getName());
