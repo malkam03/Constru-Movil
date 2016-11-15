@@ -10,6 +10,8 @@ import static com.construmovil.construmovil.data.PersonContract.PersonEntry;
 import static com.construmovil.construmovil.data.UserContract.UserEntry;
 import static com.construmovil.construmovil.data.UserRolContract.UserRolEntry;
 import static com.construmovil.construmovil.data.SupplierContract.SupplierEntry;
+import static com.construmovil.construmovil.data.ProductContract.ProductEntry;
+import static com.construmovil.construmovil.data.CategoryContract.CategoryEntry;
 
 /**
  * Created by Malcolm Davis on 11/12/2016.
@@ -21,7 +23,7 @@ import static com.construmovil.construmovil.data.SupplierContract.SupplierEntry;
  */
 public class DbHelper extends SQLiteOpenHelper{
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "EPATEC.db";
+    public static final String DATABASE_NAME = "EPATEC-Movil.db";
 
     /**
      * Constructor of the class.
@@ -54,13 +56,29 @@ public class DbHelper extends SQLiteOpenHelper{
                     PersonEntry.Phone + " TEXT NOT NULL," +
                     PersonEntry.Address + " TEXT NOT NULL," +
                     PersonEntry.BirthDate + " TEXT NOT NULL)");
-        // *********************** Constrains ******************//
+        // *********************** SUPPLIER TABLE ******************//
         pDb.execSQL("CREATE TABLE " + SupplierEntry.TABLE_NAME + " (" +
                     SupplierEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                     SupplierEntry.ID +  " TEXT UNIQUE NOT NULL," +
                     SupplierEntry.IDPerson + " TEXT NOT NULL, "+
                     SupplierEntry.BusinessName + " TEXT NOT NULL )");
-
+        //*********************PRODUCT TABLE *********************//
+        pDb.execSQL("CREATE TABLE " + ProductEntry.TABLE_NAME + " (" +
+                ProductEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                ProductEntry.Name + " TEXT UNIQUE NOT NULL, "+
+                ProductEntry.ID +  " TEXT UNIQUE NOT NULL," +
+                ProductEntry.CategoryID + " TEXT NOT NULL, " +
+                ProductEntry.SupplierID + " TEXT NOT NULL, " +
+                ProductEntry.Description + " TEXT NOT NULL, " +
+                ProductEntry.Price + "INTEGER NOT NULL, " +
+                ProductEntry.Exempt + " INTEGER DEFAULT 0 )");
+        //*********************CATEGORY TABLE *********************//
+        pDb.execSQL("CREATE TABLE " + CategoryEntry.TABLE_NAME + " (" +
+                CategoryEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                CategoryEntry.ID +  " TEXT UNIQUE NOT NULL,"+
+                CategoryEntry.Name + " TEXT UNIQUE NOT NULL, " +
+                CategoryEntry.Description + " TEXT NOT NULL )");
+        //*********************CONSTRAINS *********************//
         mockData(pDb);
     }
 
@@ -112,8 +130,23 @@ public class DbHelper extends SQLiteOpenHelper{
                             /*****Suppliers****/
         Supplier tmpSuppl = new Supplier("702340755", "Nabit", "159746523");
         MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpSuppl.toContentValues());
-        tmpSuppl = new Supplier("010100102", "Nabit", "159746523");
+        tmpSuppl = new Supplier("010100102", "Nabit", "159746521");
         MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpSuppl.toContentValues());
+                        /**************CATEGORY ************/
+        Category tmpCategory = new Category("1", "Nature Oddities", "All tech related to nature.");
+        tmpCategory = new Category("3", "Workshop tools", "Be a man while you craft your world.");
+        tmpCategory = new Category("2", "Weapons", "All you need to take down your target.");
+                        /*************PRODUCT************/
+        Product tmpProduct = new Product("1", "Argus", "1", "159746523",
+                "A camera to study wildlife.", 200, true );
+        MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpProduct.toContentValues());
+        tmpProduct = new Product("2", "Hephaestus", "3", "159746523",
+                "The perfect toolman for your workshop.", 400, false );
+        MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpProduct.toContentValues());
+        tmpProduct = new Product("3", "Artemis", "2", "159746521",
+                "So you think you can hunt? with Artemis your game will come to you.", 300, false );
+        MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpProduct.toContentValues());
+
     }
 
     /**
@@ -146,6 +179,16 @@ public class DbHelper extends SQLiteOpenHelper{
     public long savePerson(Person pPerson){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         return sqLiteDatabase.insert(PersonEntry.TABLE_NAME, null, pPerson.toContentValues());
+    }
+
+    /**
+     * Method that saves a product on the database.
+     * @param pProduct the product to store into the database.
+     * @return state of the insert query.
+     */
+    public long saveProduct(Product pProduct){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(ProductEntry.TABLE_NAME, null, pProduct.toContentValues());
     }
 
     /**
@@ -227,6 +270,22 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that search for all the products that are on the database.
+     * @return a cursor with the first product of the database.
+     */
+    public Cursor getAllProducts() {
+        return getReadableDatabase().query(
+                ProductEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
      * Method that search for all the roles that a user have on the database.
      * @return a cursor with the first userRol of the database.
      */
@@ -236,6 +295,57 @@ public class DbHelper extends SQLiteOpenHelper{
                 null,
                 UserRolEntry.UserName + " LIKE ?",
                 new String[]{pUserName},
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search for a specific product on the database by it's id.
+     * @param pID  the identifier of the product.
+     * @return a cursor with the first product of the database.
+     */
+    public Cursor getProductbyID(String pID) {
+        return getReadableDatabase().query(
+                ProductEntry.TABLE_NAME,
+                null,
+                ProductEntry.ID + " LIKE ?",
+                new String[]{pID},
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search for a specific product on the database by it's Name.
+     * @param pName  the name of the product.
+     * @return a cursor with the first product of the database.
+     */
+    public Cursor getProductbyName(String pName) {
+        return getReadableDatabase().query(
+                ProductEntry.TABLE_NAME,
+                null,
+                ProductEntry.Name + " LIKE ?",
+                new String[]{pName},
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search for a specific product on the database by it's id.
+     * @param pSupplierID  the identifier of the product.
+     * @return a cursor with the first product of the database.
+     */
+    public Cursor getProductbySupplier(String pSupplierID) {
+        return getReadableDatabase().query(
+                ProductEntry.TABLE_NAME,
+                null,
+                ProductEntry.SupplierID + " LIKE ?",
+                new String[]{pSupplierID},
                 null,
                 null,
                 null,
@@ -334,6 +444,18 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that deletes a specific product whom the entered ID corresponds to.
+     * @param pId the identifier of the product.
+     * @return state of the delete query.
+     */
+    public int deleteProduct(String pId) {
+        return getWritableDatabase().delete(
+                ProductEntry.TABLE_NAME,
+                ProductEntry.ID + " LIKE ?",
+                new String[]{pId});
+    }
+
+    /**
      * Method that deletes a specific supplier whom the entered cedPerson corresponds to.
      * @param pID ced juridica of the business.
      * @return state of the delete query.
@@ -387,6 +509,21 @@ public class DbHelper extends SQLiteOpenHelper{
                 UserEntry.TABLE_NAME,
                 pSupplier.toContentValues(),
                 UserEntry.UserName + " LIKE ?",
+                new String[]{pID}
+        );
+    }
+
+    /**
+     * Method that updates a specific product whom the entered ID corresponds to.
+     * @param pProduct the new product to update.
+     * @param pID the ID of the product
+     * @return state of the update query.
+     */
+    public int updateProduct(Product pProduct, String pID) {
+        return getWritableDatabase().update(
+                ProductEntry.TABLE_NAME,
+                pProduct.toContentValues(),
+                ProductEntry.ID + " LIKE ?",
                 new String[]{pID}
         );
     }

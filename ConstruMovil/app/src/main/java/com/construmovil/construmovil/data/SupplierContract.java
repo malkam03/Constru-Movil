@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
  */
 
 /**
- *Database person contract to link the class to the database.
+ *Database Supplier contract to link the class to the database.
  **/
 public class SupplierContract {
     public static abstract class SupplierEntry implements BaseColumns {
