@@ -1,4 +1,4 @@
-package com.construmovil.construmovil.clients;
+package com.construmovil.construmovil.supplier;
 
 
 import android.app.Activity;
@@ -17,53 +17,51 @@ import android.widget.Toast;
 
 import com.construmovil.construmovil.R;
 import com.construmovil.construmovil.data.DbHelper;
-import static com.construmovil.construmovil.data.PersonContract.PersonEntry;
-
+import static com.construmovil.construmovil.data.SupplierContract.SupplierEntry;
 
 /**
- * The Clients Fragment of Suppliers.
- * Use the {@link ClientsFragment#newInstance} factory method to
+ * A simple {@link Fragment} subclass.
+ * Use the {@link SupplierFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ClientsFragment extends Fragment {
-
-    public static final int REQUEST_UPDATE_DELETE_CLIENT = 2;
+public class SupplierFragment extends Fragment {
+    public static final int REQUEST_UPDATE_DELETE_SUPPLIER = 2;
 
     private DbHelper mDbHelper;
-    private ListView mClientsList;
-    private ClientsCursorAdapter mClientsAdapter;
+    private ListView mSupplierList;
+    private SupplierCursorAdapter mSupplierAdapter;
     private FloatingActionButton mAddButton;
 
-    public ClientsFragment() {
+    public SupplierFragment() {
         // Required empty public constructor
     }
 
-    public static ClientsFragment newInstance() {
-        return new ClientsFragment();
+    public static SupplierFragment newInstance() {
+        return new SupplierFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_clients, container, false);
+        View root = inflater.inflate(R.layout.fragment_supplier, container, false);
 
         //Referencias UI
-        mClientsList = (ListView) root.findViewById(R.id.clients_list);
-        mClientsAdapter = new ClientsCursorAdapter(getActivity(), null);
+        mSupplierList = (ListView) root.findViewById(R.id.supplier_list);
+        mSupplierAdapter = new SupplierCursorAdapter(getActivity(), null);
         mAddButton = (FloatingActionButton) getActivity().findViewById(R.id.fab);
 
         //Setup
-        mClientsList.setAdapter(mClientsAdapter);
+        mSupplierList.setAdapter(mSupplierAdapter);
 
         //Eventos
-        mClientsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mSupplierList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Cursor currentItem = (Cursor) mClientsAdapter.getItem(i);
-                String currentClientId = currentItem.getString(
-                        currentItem.getColumnIndex(PersonEntry.ID));
+                Cursor currentItem = (Cursor) mSupplierAdapter.getItem(i);
+                String currentSupplierId = currentItem.getString(
+                        currentItem.getColumnIndex(SupplierEntry.ID));
 
-                showDetailScreen(currentClientId);
+                showDetailScreen(currentSupplierId);
             }
         });
         mAddButton.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +77,7 @@ public class ClientsFragment extends Fragment {
         mDbHelper = new DbHelper(getActivity());
 
         // Carga de datos
-        loadClients();
+        loadSupplier();
 
         return root;
     }
@@ -88,40 +86,40 @@ public class ClientsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (Activity.RESULT_OK == resultCode) {
             switch (requestCode) {
-                case AddEditClientActivity.REQUEST_ADD_CLIENT:
+                case AddEditSupplierActivity.REQUEST_ADD_SUPPLIER:
                     showSuccessfullSavedMessage();
-                    loadClients();
+                    loadSupplier();
                     break;
-                case REQUEST_UPDATE_DELETE_CLIENT:
-                    loadClients();
+                case REQUEST_UPDATE_DELETE_SUPPLIER:
+                    loadSupplier();
                     break;
             }
         }
 
     }
 
-    private void loadClients() {
+    private void loadSupplier() {
         //Cargar datos
-        new ClientsLoadTask().execute();
+        new SupplierLoadTask().execute();
     }
 
     private void showSuccessfullSavedMessage() {
         Toast.makeText(getActivity(),
-                "Cliente guardado correctamente", Toast.LENGTH_SHORT).show();
+                "Proveedor guardado correctamente", Toast.LENGTH_SHORT).show();
     }
 
     private void showAddScreen() {
-        Intent intent = new Intent(getActivity(), AddEditClientActivity.class);
-        startActivityForResult(intent, AddEditClientActivity.REQUEST_ADD_CLIENT);
+        Intent intent = new Intent(getActivity(), AddEditSupplierActivity.class);
+        startActivityForResult(intent, AddEditSupplierActivity.REQUEST_ADD_SUPPLIER);
     }
 
-    private void showDetailScreen(String clientId) {
-        Intent intent = new Intent(getActivity(), ClientDetailActivity.class);
-        intent.putExtra(ClientsActivity.EXTRA_CLIENT_ID, clientId);
-        startActivityForResult(intent, REQUEST_UPDATE_DELETE_CLIENT);
+    private void showDetailScreen(String supplierId) {
+        Intent intent = new Intent(getActivity(), SupplierDetailActivity.class);
+        intent.putExtra(SupplierActivity.EXTRA_SUPPLIER_ID, supplierId);
+        startActivityForResult(intent, REQUEST_UPDATE_DELETE_SUPPLIER);
     }
 
-    private class ClientsLoadTask extends AsyncTask<Void, Void, Cursor> {
+    private class SupplierLoadTask extends AsyncTask<Void, Void, Cursor> {
 
         @Override
         protected Cursor doInBackground(Void... voids) {
@@ -131,7 +129,7 @@ public class ClientsFragment extends Fragment {
         @Override
         protected void onPostExecute(Cursor cursor) {
             if (cursor != null && cursor.getCount() > 0) {
-                mClientsAdapter.swapCursor(cursor);
+                mSupplierAdapter.swapCursor(cursor);
             } else {
                 // Mostrar empty state
             }

@@ -104,4 +104,5 @@
     <string name="title_activity_order">OrderActivity</string>
     <string name="title_activity_order_detail">Detalle de Orden</string>
     <string name="title_activity_add_edit_order">Añadir/Editar Orden</string>
+    <string name="title_activity_supplier">Proveedores</string>
 </resources>

@@ -182,6 +182,11 @@ public class AddEditClientFragment extends Fragment {
         Person client = new Person(id, username, name, middleName, lastName, phoneNumber, address, birthDate);
         new AddEditClientTask().execute(client);
 
+        UserRol userRol = new UserRol("5", username);
+        new AddUserRolTask().execute(userRol);
+
+
+
         //FALTA CREAR LA INSERSIÓN EN LA TABLA USERROL
 
     }
@@ -262,6 +267,19 @@ public class AddEditClientFragment extends Fragment {
             } else {
                 return mDbHelper.saveUser(users[0]) > 0;
             }
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            showClientsScreen(result);
+        }
+    }
+
+    private class AddUserRolTask extends AsyncTask<UserRol, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(UserRol... users) {
+            return mDbHelper.saveUserRol(users[0]) > 0;
+
         }
         @Override
         protected void onPostExecute(Boolean result) {

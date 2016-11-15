@@ -37,6 +37,10 @@
         <activity
             android:name=".order.AddEditOrderActivity"
             android:label="@string/title_activity_add_edit_order"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".supplier.SupplierActivity"
+            android:label="@string/title_activity_supplier"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
