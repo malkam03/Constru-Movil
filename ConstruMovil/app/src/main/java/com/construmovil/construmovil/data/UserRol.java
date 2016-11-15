@@ -10,7 +10,7 @@ import com.construmovil.construmovil.data.UserRolContract.UserRolEntry;
  */
 
 /**
- * Person Entity
+ * UserRol Entity
  */
 public class UserRol {
     private String idRol;
@@ -18,7 +18,7 @@ public class UserRol {
 
     /**
      * Constructor of the UserRol Class
-     * @param pIDRol The password of the user.
+     * @param pIDRol The password of the user.{1:Administrator, 2:Employee, 3:SalesMan, 4:Provider, 5:Client }
      * @param pUserName The username of the user.
      */
     public UserRol(String pIDRol, String pUserName){

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import static com.construmovil.construmovil.data.PersonContract.PersonEntry;
 import static com.construmovil.construmovil.data.UserContract.UserEntry;
 import static com.construmovil.construmovil.data.UserRolContract.UserRolEntry;
+import static com.construmovil.construmovil.data.SupplierContract.SupplierEntry;
 
 /**
  * Created by Malcolm Davis on 11/12/2016.
@@ -53,6 +54,13 @@ public class DbHelper extends SQLiteOpenHelper{
                     PersonEntry.Phone + " TEXT NOT NULL," +
                     PersonEntry.Address + " TEXT NOT NULL," +
                     PersonEntry.BirthDate + " TEXT NOT NULL)");
+        // *********************** Constrains ******************//
+        pDb.execSQL("CREATE TABLE " + SupplierEntry.TABLE_NAME + " (" +
+                    SupplierEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                    SupplierEntry.ID +  " TEXT UNIQUE NOT NULL," +
+                    SupplierEntry.IDPerson + " TEXT NOT NULL, "+
+                    SupplierEntry.BusinessName + " TEXT NOT NULL )");
+
         mockData(pDb);
     }
 
@@ -61,18 +69,31 @@ public class DbHelper extends SQLiteOpenHelper{
      * @param pSQLiteDatabase
      */
     public void mockData(SQLiteDatabase pSQLiteDatabase){
+                            /*****Users****/
         User tmpUser = new User("malkam03", "1234");
         MockAdd(pSQLiteDatabase, UserEntry.TABLE_NAME, tmpUser.toContentValues());
         tmpUser = new User("arturok", "1234");
         MockAdd(pSQLiteDatabase, UserEntry.TABLE_NAME, tmpUser.toContentValues());
         tmpUser = new User("damarce", "1234");
         MockAdd(pSQLiteDatabase, UserEntry.TABLE_NAME, tmpUser.toContentValues());
+        tmpUser = new User("testClient", "1234");
+        MockAdd(pSQLiteDatabase, UserEntry.TABLE_NAME, tmpUser.toContentValues());
+        tmpUser = new User("testProvider", "1234");
+        MockAdd(pSQLiteDatabase, UserEntry.TABLE_NAME, tmpUser.toContentValues());
+                            /*****Rols****/
         UserRol tmpURol = new UserRol("1", "malkam03");
+        MockAdd(pSQLiteDatabase, UserRolEntry.TABLE_NAME,  tmpURol.toContentValues());
+        tmpURol = new UserRol("4", "malkam03");
         MockAdd(pSQLiteDatabase, UserRolEntry.TABLE_NAME,  tmpURol.toContentValues());
         tmpURol = new UserRol("2", "arturok");
         MockAdd(pSQLiteDatabase, UserRolEntry.TABLE_NAME,  tmpURol.toContentValues());
         tmpURol = new UserRol("3", "damarce");
         MockAdd(pSQLiteDatabase, UserRolEntry.TABLE_NAME,  tmpURol.toContentValues());
+        tmpURol = new UserRol("5", "testClient");
+        MockAdd(pSQLiteDatabase, UserRolEntry.TABLE_NAME,  tmpURol.toContentValues());
+        tmpURol = new UserRol("4", "testProvider");
+        MockAdd(pSQLiteDatabase, UserRolEntry.TABLE_NAME,  tmpURol.toContentValues());
+                            /*****Persons****/
         Person tmpPerson = new Person("702340755", "malkam03",
                 "Malcolm", "Davis", "Steele", "89606261", "Cartago y otras senas", "17/03/1995");
         MockAdd(pSQLiteDatabase, PersonEntry.TABLE_NAME, tmpPerson.toContentValues());
@@ -82,6 +103,17 @@ public class DbHelper extends SQLiteOpenHelper{
         tmpPerson =  new Person("302340755", "damarce",
                 "Marcela", "Ortega", "Soto", "89606262", "Cartago y otras senas", "17/03/1997");
         MockAdd(pSQLiteDatabase, PersonEntry.TABLE_NAME, tmpPerson.toContentValues());
+        tmpPerson =  new Person("010100101", "testClient",
+                "John", "Doe", "Client", "77777777", "Hell's Kitchen", "17/03/1997");
+        MockAdd(pSQLiteDatabase, PersonEntry.TABLE_NAME, tmpPerson.toContentValues());
+        tmpPerson =  new Person("010100102", "testProvider",
+        "John", "Doe", "Provider", "77777777", "Hell's Kitchen", "17/03/1997");
+        MockAdd(pSQLiteDatabase, PersonEntry.TABLE_NAME, tmpPerson.toContentValues());
+                            /*****Suppliers****/
+        Supplier tmpSuppl = new Supplier("702340755", "Nabit", "159746523");
+        MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpSuppl.toContentValues());
+        tmpSuppl = new Supplier("010100102", "Nabit", "159746523");
+        MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpSuppl.toContentValues());
     }
 
     /**
@@ -137,6 +169,16 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that saves a supplier on the database
+     * @param pSuppl the supplier data to store into the dayabase.
+     * @return state of the insert query.
+     */
+    public long saveSupplier(Supplier pSuppl){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(SupplierEntry.TABLE_NAME, null, pSuppl.toContentValues());
+    }
+
+    /**
      * Method that search for all the persons that are on the database.
      * @return a cursor with the first person of the database.
      */
@@ -159,6 +201,22 @@ public class DbHelper extends SQLiteOpenHelper{
     public Cursor getAllUser() {
         return getReadableDatabase().query(
                 UserEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search for all the suppliers that are on the database.
+     * @return a cursor with the first supplier of the database.
+     */
+    public Cursor getAllSupplier() {
+        return getReadableDatabase().query(
+                SupplierEntry.TABLE_NAME,
                 null,
                 null,
                 null,
@@ -192,6 +250,23 @@ public class DbHelper extends SQLiteOpenHelper{
     public Cursor getPersonById(String pID) {
         Cursor cursor = getReadableDatabase().query(
                 PersonEntry.TABLE_NAME,
+                null,
+                PersonEntry.ID + " LIKE ?",
+                new String[]{pID},
+                null,
+                null,
+                null);
+        return cursor;
+    }
+
+    /**
+     * Method that search for a specific supplier whom the entered ID corresponds to.
+     * @param pID the identifier of the supplier.
+     * @return a cursor with the supplier that meets the search params.
+     */
+    public Cursor getSupplierByID(String pID) {
+        Cursor cursor = getReadableDatabase().query(
+                SupplierEntry.TABLE_NAME,
                 null,
                 PersonEntry.ID + " LIKE ?",
                 new String[]{pID},
@@ -258,6 +333,18 @@ public class DbHelper extends SQLiteOpenHelper{
                 new String[]{pUsername});
     }
 
+    /**
+     * Method that deletes a specific supplier whom the entered cedPerson corresponds to.
+     * @param pID ced juridica of the business.
+     * @return state of the delete query.
+     */
+    public int deleteSupplier(String pID) {
+        return getWritableDatabase().delete(
+                SupplierEntry.TABLE_NAME,
+                SupplierEntry.ID + " LIKE ?",
+                new String[]{pID});
+    }
+
 
     /**
      * Method that updates a specific person whom the entered ID corresponds to.
@@ -286,6 +373,21 @@ public class DbHelper extends SQLiteOpenHelper{
                 pUser.toContentValues(),
                 UserEntry.UserName + " LIKE ?",
                 new String[]{pUsername}
+        );
+    }
+
+    /**
+     * Method that updates a specific supplier whom the entered ID corresponds to.
+     * @param pSupplier the new supplier to update.
+     * @param pID the ID of the business
+     * @return state of the update query.
+     */
+    public int updateSupplier(Supplier pSupplier, String pID) {
+        return getWritableDatabase().update(
+                UserEntry.TABLE_NAME,
+                pSupplier.toContentValues(),
+                UserEntry.UserName + " LIKE ?",
+                new String[]{pID}
         );
     }
 }

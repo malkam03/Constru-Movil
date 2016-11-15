@@ -10,7 +10,7 @@ import com.construmovil.construmovil.data.UserContract.UserEntry;
  */
 
 /**
- * Person Entity
+ * User Entity
  */
 public class User {
     private String userName;
