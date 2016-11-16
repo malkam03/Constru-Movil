@@ -82,10 +82,14 @@ public class DbHelper extends SQLiteOpenHelper{
                     CategoryEntry.Description + " TEXT NOT NULL )");
         //*********************ORDER TABLE *********************//
         pDb.execSQL("CREATE TABLE " + OrderEntry.TABLE_NAME + " (" +
-                    CategoryEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                    CategoryEntry.ID +  " TEXT UNIQUE NOT NULL,"+
-                    CategoryEntry.Name + " TEXT UNIQUE NOT NULL, " +
-                    CategoryEntry.Description + " TEXT NOT NULL )");
+                    OrderEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                    OrderEntry.ID +  " TEXT UNIQUE NOT NULL,"+
+                    OrderEntry.UserName + " TEXT NOT NULL, " +
+                    OrderEntry.OfficeName +  " TEXT UNIQUE NOT NULL,"+
+                    OrderEntry.State + " TEXT NOT NULL, " +
+                    OrderEntry.Phone +  " TEXT UNIQUE NOT NULL,"+
+                    OrderEntry.ETA   + " TEXT NOT NULL, " +
+                    OrderEntry.OrderTime + " TEXT NOT NULL )");
         //*********************OrderProduct TABLE *********************//
         pDb.execSQL("CREATE TABLE " + OrderProductEntry.TABLE_NAME + " (" +
                     OrderProductEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -154,16 +158,27 @@ public class DbHelper extends SQLiteOpenHelper{
                         /*************PRODUCT************/
         Product tmpProduct = new Product("1", "Argus", "1", "159746523",
                 "A camera to study wildlife.", 200, 0 );
-        MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpProduct.toContentValues());
+        MockAdd(pSQLiteDatabase, ProductEntry.TABLE_NAME, tmpProduct.toContentValues());
         tmpProduct = new Product("2", "Hephaestus", "3", "159746523",
                 "The perfect toolman for your workshop.", 400, 0 );
-        MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpProduct.toContentValues());
+        MockAdd(pSQLiteDatabase, ProductEntry.TABLE_NAME, tmpProduct.toContentValues());
         tmpProduct = new Product("3", "Artemis", "2", "159746521",
                 "So you think you can hunt? with Artemis your game will come to you.", 300, 0 );
-        MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpProduct.toContentValues());
+        MockAdd(pSQLiteDatabase, ProductEntry.TABLE_NAME, tmpProduct.toContentValues());
                         /*************ORDER*************/
-
-                        /*************ORDERPRODUCT************/
+        Order tmpOrder = new Order("1", "testClient", "Cartago", "Pagado",
+                "2222-2222", "17/11/2016", "17/11/2016" );
+        MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpProduct.toContentValues());
+        tmpOrder = new Order("2", "testClient", "Cartago", "Pagado",
+                "2222-2222", "17/11/2016", "17/11/2016" );
+        MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpProduct.toContentValues());
+        tmpOrder = new Order("3", "testClient", "Cartago", "Pagado",
+                "2222-2222", "17/11/2016", "17/11/2016" );
+        MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpProduct.toContentValues());
+        tmpOrder = new Order("4", "testClient", "Cartago", "Pagado",
+                "2222-2222", "17/11/2016", "17/11/2016" );
+        MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpProduct.toContentValues());
+        /*************ORDERPRODUCT************/
         OrderProduct OP = new OrderProduct("1", "1", 3,100);
         MockAdd(pSQLiteDatabase, OrderProductEntry.TABLE_NAME, OP.toContentValues());
         OP = new OrderProduct("2", "1", 5,50);
@@ -272,12 +287,38 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that saves a Order on the database
+     * @param pOrder the Order data to store into the database.
+     * @return state of the insert query.
+     */
+    public long saveOrder(Order pOrder){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(OrderEntry.TABLE_NAME, null, pOrder.toContentValues());
+    }
+
+    /**
      * Method that search for all the persons that are on the database.
      * @return a cursor with the first person of the database.
      */
     public Cursor getAllPersons() {
         return getReadableDatabase().query(
                 PersonEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search for all the Orders that are on the database.
+     * @return a cursor with the first Orders of the database.
+     */
+    public Cursor getAllOrders() {
+        return getReadableDatabase().query(
+                OrderEntry.TABLE_NAME,
                 null,
                 null,
                 null,
@@ -360,6 +401,38 @@ public class DbHelper extends SQLiteOpenHelper{
                 UserRolEntry.TABLE_NAME,
                 null,
                 UserRolEntry.UserName + " LIKE ?",
+                new String[]{pUserName},
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search for all the orders on the database with a ID.
+     * @return a cursor with the first order of the database.
+     */
+    public Cursor geOrderbyID(String pID) {
+        return getReadableDatabase().query(
+                OrderEntry.TABLE_NAME,
+                null,
+                OrderEntry.ID + " LIKE ?",
+                new String[]{pID},
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search for all the orders on the database of a userName.
+     * @return a cursor with the first order of the database.
+     */
+    public Cursor geOrderbyUsername(String pUserName) {
+        return getReadableDatabase().query(
+                OrderEntry.TABLE_NAME,
+                null,
+                OrderEntry.UserName + " LIKE ?",
                 new String[]{pUserName},
                 null,
                 null,
@@ -552,7 +625,7 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
-     * Method that deletes a specific person whom the entered ID corresponds to.
+     * Method that deletes a specific rol whom the entered ID corresponds to.
      * @param pUserName the username of the user that the rol will be deleted.
      * @param pIDRol the rol that will be deleted.
      * @return state of the delete query.
@@ -563,6 +636,19 @@ public class DbHelper extends SQLiteOpenHelper{
                 UserRolEntry.UserName + " LIKE ? AND " + UserRolEntry.IDRol+ "LIKE ?",
                 new String[]{pUserName, pIDRol});
     }
+
+    /**
+     * Method that deletes a specific Order whom the entered ID corresponds to.
+     * @param pID the username of the user that the rol will be deleted.
+     * @return state of the delete query.
+     */
+    public int deleteOrder(String pID) {
+        return getWritableDatabase().delete(
+                OrderEntry.TABLE_NAME,
+                OrderEntry.ID + " LIKE ? ",
+                new String[]{pID});
+    }
+
 
     /**
      * Method that delete by OrderID and Product ID for all the orderproducts entries on the database.
@@ -668,6 +754,21 @@ public class DbHelper extends SQLiteOpenHelper{
                 CategoryEntry.TABLE_NAME,
                 pCat.toContentValues(),
                 CategoryEntry.ID + " LIKE ?",
+                new String[]{pID}
+        );
+    }
+
+    /**
+     * Method that updates a specific order whom the entered ID corresponds to.
+     * @param pOrd new order to update.
+     * @param pID the identifier of the order.
+     * @return state of the update query.
+     */
+    public int updateOrder(Order pOrd, String pID) {
+        return getWritableDatabase().update(
+                OrderEntry.TABLE_NAME,
+                pOrd.toContentValues(),
+                OrderEntry.ID + " LIKE ?",
                 new String[]{pID}
         );
     }
