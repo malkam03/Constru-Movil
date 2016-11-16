@@ -14,6 +14,7 @@ import static com.construmovil.construmovil.data.ProductContract.ProductEntry;
 import static com.construmovil.construmovil.data.CategoryContract.CategoryEntry;
 import static com.construmovil.construmovil.data.OrderProductContract.OrderProductEntry;
 import static com.construmovil.construmovil.data.OrderContract.OrderEntry;
+import static com.construmovil.construmovil.data.SellContract.SellEntry;
 
 /**
  * Created by Malcolm Davis on 11/12/2016.
@@ -97,6 +98,12 @@ public class DbHelper extends SQLiteOpenHelper{
                     OrderProductEntry.IDProduct + " TEXT NOT NULL, " +
                     OrderProductEntry.Amount + " INTEGER DEFAULT 1 ," +
                     OrderProductEntry.ActualPrice + " INTEGER NOT NULL )");
+        //*********************SELL TABLE *********************//
+        pDb.execSQL("CREATE TABLE " + SellEntry.TABLE_NAME + " (" +
+                SellEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                SellEntry.ID +  " TEXT UNIQUE NOT NULL,"+
+                SellEntry.OrderID + " TEXT UNIQUE NOT NULL, " +
+                SellEntry.SalesmanUserName + " TEXT NOT NULL)");
         //*********************CONSTRAINS *********************//
         mockData(pDb);
     }
@@ -178,6 +185,15 @@ public class DbHelper extends SQLiteOpenHelper{
         tmpOrder = new Order("4", "testClient", "Cartago", "Pagado",
                 "2222-2222", "17/11/2016", "17/11/2016" );
         MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpProduct.toContentValues());
+                        /************* SELL TABLE *************/
+        Sell tmpSell = new Sell("damarce1", "1", "damarce");
+        MockAdd(pSQLiteDatabase, SellEntry.TABLE_NAME, tmpSell.toContentValues());
+        tmpSell = new Sell("damarce2", "2", "damarce");
+        MockAdd(pSQLiteDatabase, SellEntry.TABLE_NAME, tmpSell.toContentValues());
+        tmpSell = new Sell("arturok1", "3", "arturok");
+        MockAdd(pSQLiteDatabase, SellEntry.TABLE_NAME, tmpSell.toContentValues());
+        tmpSell = new Sell("arturok2", "4", "arturok");
+        MockAdd(pSQLiteDatabase, SellEntry.TABLE_NAME, tmpSell.toContentValues());
         /*************ORDERPRODUCT************/
         OrderProduct OP = new OrderProduct("1", "1", 3,100);
         MockAdd(pSQLiteDatabase, OrderProductEntry.TABLE_NAME, OP.toContentValues());
@@ -257,6 +273,16 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that saves a Sell data on the database.
+     * @param pSell the Sell data to store into the database.
+     * @return state of the insert query.
+     */
+    public long saveSell(Sell pSell){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(SellEntry.TABLE_NAME, null, pSell.toContentValues());
+    }
+
+    /**
      * Method that saves a UserRol on the database
      * @param pURol the user data to store into the database.
      * @return state of the insert query.
@@ -303,6 +329,22 @@ public class DbHelper extends SQLiteOpenHelper{
     public Cursor getAllPersons() {
         return getReadableDatabase().query(
                 PersonEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search for all the sells that are on the database.
+     * @return a cursor with the first sell of the database.
+     */
+    public Cursor getSells() {
+        return getReadableDatabase().query(
+                SellEntry.TABLE_NAME,
                 null,
                 null,
                 null,
@@ -402,6 +444,22 @@ public class DbHelper extends SQLiteOpenHelper{
                 null,
                 UserRolEntry.UserName + " LIKE ?",
                 new String[]{pUserName},
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search for all the roles that a user have on the database.
+     * @return a cursor with the first userRol of the database.
+     */
+    public Cursor getSellBySalesMan(String pSalesmanUserName) {
+        return getReadableDatabase().query(
+                SellEntry.TABLE_NAME,
+                null,
+                SellEntry.SalesmanUserName + " LIKE ?",
+                new String[]{pSalesmanUserName},
                 null,
                 null,
                 null,
@@ -625,6 +683,18 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that deletes a specific sell whom the entered ID corresponds to.
+     * @param pId the identifier of the sell.
+     * @return state of the delete query.
+     */
+    public int deleteSell(String pId) {
+        return getWritableDatabase().delete(
+                SellEntry.TABLE_NAME,
+                SellEntry.ID + " LIKE ?",
+                new String[]{pId});
+    }
+
+    /**
      * Method that deletes a specific rol whom the entered ID corresponds to.
      * @param pUserName the username of the user that the rol will be deleted.
      * @param pIDRol the rol that will be deleted.
@@ -757,6 +827,22 @@ public class DbHelper extends SQLiteOpenHelper{
                 new String[]{pID}
         );
     }
+
+    /**
+     * Method that updates a specific Sell whom the entered ID corresponds to.
+     * @param pSell new Sell to update.
+     * @param pID the identifier of the Sell.
+     * @return state of the update query.
+     */
+    public int updateSell(Category pSell, String pID) {
+        return getWritableDatabase().update(
+                SellEntry.TABLE_NAME,
+                pSell.toContentValues(),
+                SellEntry.ID + " LIKE ?",
+                new String[]{pID}
+        );
+    }
+
 
     /**
      * Method that updates a specific order whom the entered ID corresponds to.
