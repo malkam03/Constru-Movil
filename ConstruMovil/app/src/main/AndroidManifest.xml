@@ -41,6 +41,14 @@
         <activity
             android:name=".supplier.SupplierActivity"
             android:label="@string/title_activity_supplier"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".supplier.SupplierDetailActivity"
+            android:label="@string/title_activity_supplier_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".supplier.AddEditSupplierActivity"
+            android:label="@string/title_activity_add_edit_supplier"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
