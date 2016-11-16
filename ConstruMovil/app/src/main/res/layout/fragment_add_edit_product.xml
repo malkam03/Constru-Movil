@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        tools:context=".clients.AddEditClientActivity">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_product_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre de Producto"
+                android:inputType="text"
+                tools:text="Nombre de Producto" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_product_category_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_product_category_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ID Categoría"
+                android:inputType="number"
+                tools:text="Contraseña" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_product_ced_jur"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_product_ced_jur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ID Proveedor"
+                android:inputType="text"
+                tools:text="ID Proveedor" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_product_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_product_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Descripción"
+                android:inputType="text"
+                tools:text="Descripción" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_product_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_product_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Precio"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                tools:text="Precio" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_product_exempt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_product_exempt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Exento (0:F|1:V)"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                tools:text="Exento (0:F|1:V)" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,4 +1,4 @@
-package com.construmovil.construmovil.clients;
+package com.construmovil.construmovil.product;
 
 
 import android.app.Activity;
@@ -17,53 +17,51 @@ import android.widget.Toast;
 
 import com.construmovil.construmovil.R;
 import com.construmovil.construmovil.data.DbHelper;
-import static com.construmovil.construmovil.data.PersonContract.PersonEntry;
-
+import static com.construmovil.construmovil.data.ProductContract.ProductEntry;
 
 /**
- * The Clients Fragment for ClientsActivity.
- * Use the {@link ClientsFragment#newInstance} factory method to
+ * The Products Fragment for ProductsActivity.
+ * Use the {@link ProductFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ClientsFragment extends Fragment {
-
-    public static final int REQUEST_UPDATE_DELETE_CLIENT = 2;
+public class ProductFragment extends Fragment {
+    public static final int REQUEST_UPDATE_DELETE_PRODUCT = 2;
 
     private DbHelper mDbHelper;
-    private ListView mClientsList;
-    private ClientsCursorAdapter mClientsAdapter;
+    private ListView mProductList;
+    private ProductCursorAdapter mProductAdapter;
     private FloatingActionButton mAddButton;
 
-    public ClientsFragment() {
+    public ProductFragment() {
         // Required empty public constructor
     }
 
-    public static ClientsFragment newInstance() {
-        return new ClientsFragment();
+    public static ProductFragment newInstance() {
+        return new ProductFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_clients, container, false);
+        View root = inflater.inflate(R.layout.fragment_product, container, false);
 
         //Referencias UI
-        mClientsList = (ListView) root.findViewById(R.id.clients_list);
-        mClientsAdapter = new ClientsCursorAdapter(getActivity(), null);
+        mProductList = (ListView) root.findViewById(R.id.product_list);
+        mProductAdapter = new ProductCursorAdapter(getActivity(), null);
         mAddButton = (FloatingActionButton) getActivity().findViewById(R.id.fab);
 
         //Setup
-        mClientsList.setAdapter(mClientsAdapter);
+        mProductList.setAdapter(mProductAdapter);
 
         //Eventos
-        mClientsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mProductList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Cursor currentItem = (Cursor) mClientsAdapter.getItem(i);
-                String currentClientId = currentItem.getString(
-                        currentItem.getColumnIndex(PersonEntry.ID));
+                Cursor currentItem = (Cursor) mProductAdapter.getItem(i);
+                String currentProductId = currentItem.getString(
+                        currentItem.getColumnIndex(ProductEntry.ID));
 
-                showDetailScreen(currentClientId);
+                showDetailScreen(currentProductId);
             }
         });
         mAddButton.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +77,7 @@ public class ClientsFragment extends Fragment {
         mDbHelper = new DbHelper(getActivity());
 
         // Carga de datos
-        loadClients();
+        loadProduct();
 
         return root;
     }
@@ -88,50 +86,50 @@ public class ClientsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (Activity.RESULT_OK == resultCode) {
             switch (requestCode) {
-                case AddEditClientActivity.REQUEST_ADD_CLIENT:
+                case AddEditProductActivity.REQUEST_ADD_PRODUCT:
                     showSuccessfullSavedMessage();
-                    loadClients();
+                    loadProduct();
                     break;
-                case REQUEST_UPDATE_DELETE_CLIENT:
-                    loadClients();
+                case REQUEST_UPDATE_DELETE_PRODUCT:
+                    loadProduct();
                     break;
             }
         }
 
     }
 
-    private void loadClients() {
+    private void loadProduct() {
         //Cargar datos
-        new ClientsLoadTask().execute();
+        new ProductLoadTask().execute();
     }
 
     private void showSuccessfullSavedMessage() {
         Toast.makeText(getActivity(),
-                "Cliente guardado correctamente", Toast.LENGTH_SHORT).show();
+                "Producto guardado correctamente", Toast.LENGTH_SHORT).show();
     }
 
     private void showAddScreen() {
-        Intent intent = new Intent(getActivity(), AddEditClientActivity.class);
-        startActivityForResult(intent, AddEditClientActivity.REQUEST_ADD_CLIENT);
+        Intent intent = new Intent(getActivity(), AddEditProductActivity.class);
+        startActivityForResult(intent, AddEditProductActivity.REQUEST_ADD_PRODUCT);
     }
 
-    private void showDetailScreen(String clientId) {
-        Intent intent = new Intent(getActivity(), ClientDetailActivity.class);
-        intent.putExtra(ClientsActivity.EXTRA_CLIENT_ID, clientId);
-        startActivityForResult(intent, REQUEST_UPDATE_DELETE_CLIENT);
+    private void showDetailScreen(String productId) {
+        Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+        intent.putExtra(ProductActivity.EXTRA_PRODUCT_ID, productId);
+        startActivityForResult(intent, REQUEST_UPDATE_DELETE_PRODUCT);
     }
 
-    private class ClientsLoadTask extends AsyncTask<Void, Void, Cursor> {
+    private class ProductLoadTask extends AsyncTask<Void, Void, Cursor> {
 
         @Override
         protected Cursor doInBackground(Void... voids) {
-            return mDbHelper.getAllPersons();
+            return mDbHelper.getAllProducts();
         }
 
         @Override
         protected void onPostExecute(Cursor cursor) {
             if (cursor != null && cursor.getCount() > 0) {
-                mClientsAdapter.swapCursor(cursor);
+                mProductAdapter.swapCursor(cursor);
             } else {
                 // Mostrar empty state
             }

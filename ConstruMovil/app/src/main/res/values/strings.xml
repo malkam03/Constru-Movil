@@ -107,4 +107,7 @@
     <string name="title_activity_supplier">Proveedores</string>
     <string name="title_activity_supplier_detail">Detalle de Proveedor</string>
     <string name="title_activity_add_edit_supplier">Añadir/Editar Proveedor</string>
+    <string name="title_activity_product">Productos</string>
+    <string name="title_activity_product_detail">Detalle de Producto</string>
+    <string name="title_activity_add_edit_product">Añadir / Editar Producto</string>
 </resources>
