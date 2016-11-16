@@ -15,6 +15,8 @@ import static com.construmovil.construmovil.data.CategoryContract.CategoryEntry;
 import static com.construmovil.construmovil.data.OrderProductContract.OrderProductEntry;
 import static com.construmovil.construmovil.data.OrderContract.OrderEntry;
 import static com.construmovil.construmovil.data.SellContract.SellEntry;
+import static com.construmovil.construmovil.data.OfficeContract.OfficeEntry;
+import static com.construmovil.construmovil.data.ProductInOfficeContract.ProductInOfficeEntry;
 
 /**
  * Created by Malcolm Davis on 11/12/2016.
@@ -22,7 +24,7 @@ import static com.construmovil.construmovil.data.SellContract.SellEntry;
  */
 
 /**
- * Database helper to handles the person on teh database.
+ * Database helper to handles  the database.
  */
 public class DbHelper extends SQLiteOpenHelper{
     public static final int DATABASE_VERSION = 1;
@@ -81,6 +83,17 @@ public class DbHelper extends SQLiteOpenHelper{
                     CategoryEntry.ID +  " TEXT UNIQUE NOT NULL,"+
                     CategoryEntry.Name + " TEXT UNIQUE NOT NULL, " +
                     CategoryEntry.Description + " TEXT NOT NULL )");
+        //*********************BRANCH OFFICE TABLE *********************//
+        pDb.execSQL("CREATE TABLE " + OfficeEntry.TABLE_NAME + " (" +
+                OfficeEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                OfficeEntry.Name +  " TEXT UNIQUE NOT NULL,"+
+                OfficeEntry.Address + " TEXT NOT NULL )");
+        //*********************BRANCH OFFICE TABLE *********************//
+        pDb.execSQL("CREATE TABLE " + ProductInOfficeEntry.TABLE_NAME + " (" +
+                ProductInOfficeEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                ProductInOfficeEntry.OfficeName +  " TEXT NOT NULL,"+
+                ProductInOfficeEntry.ProductID + " TEXT NOT NULL, "+
+                ProductInOfficeEntry.Amount + " INTEGER NOT NULL )");
         //*********************ORDER TABLE *********************//
         pDb.execSQL("CREATE TABLE " + OrderEntry.TABLE_NAME + " (" +
                     OrderEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -124,6 +137,7 @@ public class DbHelper extends SQLiteOpenHelper{
         MockAdd(pSQLiteDatabase, UserEntry.TABLE_NAME, tmpUser.toContentValues());
         tmpUser = new User("testProvider", "1234");
         MockAdd(pSQLiteDatabase, UserEntry.TABLE_NAME, tmpUser.toContentValues());
+
                             /*****Rols****/
         UserRol tmpURol = new UserRol("1", "malkam03");
         MockAdd(pSQLiteDatabase, UserRolEntry.TABLE_NAME,  tmpURol.toContentValues());
@@ -137,6 +151,7 @@ public class DbHelper extends SQLiteOpenHelper{
         MockAdd(pSQLiteDatabase, UserRolEntry.TABLE_NAME,  tmpURol.toContentValues());
         tmpURol = new UserRol("4", "testProvider");
         MockAdd(pSQLiteDatabase, UserRolEntry.TABLE_NAME,  tmpURol.toContentValues());
+
                             /*****Persons****/
         Person tmpPerson = new Person("702340755", "malkam03",
                 "Malcolm", "Davis", "Steele", "89606261", "Cartago y otras senas", "17/03/1995");
@@ -153,15 +168,21 @@ public class DbHelper extends SQLiteOpenHelper{
         tmpPerson =  new Person("010100102", "testProvider",
         "John", "Doe", "Provider", "77777777", "Hell's Kitchen", "17/03/1997");
         MockAdd(pSQLiteDatabase, PersonEntry.TABLE_NAME, tmpPerson.toContentValues());
+
                             /*****Suppliers****/
         Supplier tmpSuppl = new Supplier("702340755", "Nabit", "159746523");
         MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpSuppl.toContentValues());
         tmpSuppl = new Supplier("010100102", "Nabit", "159746521");
         MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpSuppl.toContentValues());
+
                         /**************CATEGORY ************/
         Category tmpCategory = new Category("1", "Nature Oddities", "All tech related to nature.");
+        MockAdd(pSQLiteDatabase, CategoryEntry.TABLE_NAME, tmpCategory.toContentValues());
         tmpCategory = new Category("3", "Workshop tools", "Be a man while you craft your world.");
+        MockAdd(pSQLiteDatabase, CategoryEntry.TABLE_NAME, tmpCategory.toContentValues());
         tmpCategory = new Category("2", "Weapons", "All you need to take down your target.");
+        MockAdd(pSQLiteDatabase, CategoryEntry.TABLE_NAME, tmpCategory.toContentValues());
+
                         /*************PRODUCT************/
         Product tmpProduct = new Product("1", "Argus", "1", "159746523",
                 "A camera to study wildlife.", 200, 0 );
@@ -172,19 +193,37 @@ public class DbHelper extends SQLiteOpenHelper{
         tmpProduct = new Product("3", "Artemis", "2", "159746521",
                 "So you think you can hunt? with Artemis your game will come to you.", 300, 0 );
         MockAdd(pSQLiteDatabase, ProductEntry.TABLE_NAME, tmpProduct.toContentValues());
-                        /*************ORDER*************/
+
+                        /*************OFFICE************/
+        Office tmpOffice = new Office("Cartago", "En algun lugar de la vieja metropoli");
+        MockAdd(pSQLiteDatabase, OfficeEntry.TABLE_NAME, tmpOffice.toContentValues());
+        tmpOffice = new Office("San Jose", "En algun lugar de la nueva metropoli");
+        MockAdd(pSQLiteDatabase, OfficeEntry.TABLE_NAME, tmpOffice.toContentValues());
+
+                    /*************PRODUCT IN OFFICE TABLE************/
+        ProductInOffice tmpProductInOffice = new ProductInOffice("Cartago", "1", 500);
+        MockAdd(pSQLiteDatabase, ProductInOfficeEntry.TABLE_NAME, tmpProductInOffice.toContentValues());
+        tmpProductInOffice = new ProductInOffice("Cartago", "2", 100);
+        MockAdd(pSQLiteDatabase, ProductInOfficeEntry.TABLE_NAME, tmpProductInOffice.toContentValues());
+        tmpProductInOffice = new ProductInOffice("Cartago", "3", 50);
+        MockAdd(pSQLiteDatabase, ProductInOfficeEntry.TABLE_NAME, tmpProductInOffice.toContentValues());
+        tmpProductInOffice = new ProductInOffice("San Jose", "1", 10);
+        MockAdd(pSQLiteDatabase, ProductInOfficeEntry.TABLE_NAME, tmpProductInOffice.toContentValues());
+
+                      //**************ORDER*************//
         Order tmpOrder = new Order("1", "testClient", "Cartago", "Pagado",
                 "2222-2222", "17/11/2016", "17/11/2016" );
-        MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpProduct.toContentValues());
+        MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpOrder.toContentValues());
         tmpOrder = new Order("2", "testClient", "Cartago", "Pagado",
                 "2222-2222", "17/11/2016", "17/11/2016" );
-        MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpProduct.toContentValues());
+        MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpOrder.toContentValues());
         tmpOrder = new Order("3", "testClient", "Cartago", "Pagado",
                 "2222-2222", "17/11/2016", "17/11/2016" );
-        MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpProduct.toContentValues());
+        MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpOrder.toContentValues());
         tmpOrder = new Order("4", "testClient", "Cartago", "Pagado",
                 "2222-2222", "17/11/2016", "17/11/2016" );
-        MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpProduct.toContentValues());
+        MockAdd(pSQLiteDatabase, OrderEntry.TABLE_NAME, tmpOrder.toContentValues());
+
                         /************* SELL TABLE *************/
         Sell tmpSell = new Sell("damarce1", "1", "damarce");
         MockAdd(pSQLiteDatabase, SellEntry.TABLE_NAME, tmpSell.toContentValues());
@@ -194,7 +233,8 @@ public class DbHelper extends SQLiteOpenHelper{
         MockAdd(pSQLiteDatabase, SellEntry.TABLE_NAME, tmpSell.toContentValues());
         tmpSell = new Sell("arturok2", "4", "arturok");
         MockAdd(pSQLiteDatabase, SellEntry.TABLE_NAME, tmpSell.toContentValues());
-        /*************ORDERPRODUCT************/
+
+                        /*************ORDERPRODUCT************/
         OrderProduct OP = new OrderProduct("1", "1", 3,100);
         MockAdd(pSQLiteDatabase, OrderProductEntry.TABLE_NAME, OP.toContentValues());
         OP = new OrderProduct("2", "1", 5,50);
@@ -243,6 +283,16 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that saves a ProductInOffice record data on the database.
+     * @param pProductOffice the ProductInOffice record data to store into the database.
+     * @return state of the insert query.
+     */
+    public long saveProductInOffice(ProductInOffice pProductOffice){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(ProductInOfficeEntry.TABLE_NAME, null, pProductOffice.toContentValues());
+    }
+
+    /**
      * Method that saves a product on the database.
      * @param pProduct the product to store into the database.
      * @return state of the insert query.
@@ -280,6 +330,16 @@ public class DbHelper extends SQLiteOpenHelper{
     public long saveSell(Sell pSell){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         return sqLiteDatabase.insert(SellEntry.TABLE_NAME, null, pSell.toContentValues());
+    }
+
+    /**
+     * Method that saves a office data on the database.
+     * @param pOffice the office data to store into the database.
+     * @return state of the insert query.
+     */
+    public long saveOffice(Office pOffice){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(OfficeEntry.TABLE_NAME, null, pOffice.toContentValues());
     }
 
     /**
@@ -329,6 +389,23 @@ public class DbHelper extends SQLiteOpenHelper{
     public Cursor getAllPersons() {
         return getReadableDatabase().query(
                 PersonEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
+
+
+    /**
+     * Method that search for all the offices that are on the database.
+     * @return a cursor with the first offices of the database.
+     */
+    public Cursor getAllOffices() {
+        return getReadableDatabase().query(
+                OfficeEntry.TABLE_NAME,
                 null,
                 null,
                 null,
@@ -451,6 +528,22 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that search for all the products in a office by office name.
+     * @return a cursor with the first productInOffice of the database.
+     */
+    public Cursor getAllProductsInOffice(String pOfficeName) {
+        return getReadableDatabase().query(
+                ProductInOfficeEntry.TABLE_NAME,
+                null,
+                ProductInOfficeEntry.OfficeName + " LIKE ?",
+                new String[]{pOfficeName},
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
      * Method that search for all the roles that a user have on the database.
      * @return a cursor with the first userRol of the database.
      */
@@ -460,6 +553,23 @@ public class DbHelper extends SQLiteOpenHelper{
                 null,
                 SellEntry.SalesmanUserName + " LIKE ?",
                 new String[]{pSalesmanUserName},
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search for a office by it's name on the database.
+     * @param pName the name of the office.
+     * @return a cursor with the office data.
+     */
+    public Cursor getOffice(String pName) {
+        return getReadableDatabase().query(
+                SellEntry.TABLE_NAME,
+                null,
+                OfficeEntry.Name + " LIKE ?",
+                new String[]{pName},
                 null,
                 null,
                 null,
@@ -683,6 +793,31 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that deletes a specific productInOffice whom the entered name and id corresponds to.
+     * @param pOfficeName the office's name.
+     * @param pProductId the identifier of the product.
+     * @return state of the delete query.
+     */
+    public int deleteProductInOffice(String pOfficeName, String pProductId) {
+        return getWritableDatabase().delete(
+                ProductInOfficeEntry.TABLE_NAME,
+                ProductInOfficeEntry.OfficeName + " LIKE ? AND " +ProductInOfficeEntry.ProductID + " LIKE ? " ,
+                new String[]{pOfficeName, pProductId});
+    }
+
+    /**
+     * Method that deletes a specific office whom the entered name corresponds to.
+     * @param pName the name of the office.
+     * @return state of the delete query.
+     */
+    public int deleteOffice(String pName) {
+        return getWritableDatabase().delete(
+                OfficeEntry.TABLE_NAME,
+                OfficeEntry.Name + " LIKE ?",
+                new String[]{pName});
+    }
+
+    /**
      * Method that deletes a specific sell whom the entered ID corresponds to.
      * @param pId the identifier of the sell.
      * @return state of the delete query.
@@ -890,7 +1025,22 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
-     * Method that search by OrderID for all the orderproducts entries on the database.
+     * Method that updates a specific office whom the entered name corresponds to.
+     * @param pOffice the new product to update.
+     * @param pName the ID of the product
+     * @return state of the update query.
+     */
+    public int updateProduct(Office pOffice, String pName) {
+        return getWritableDatabase().update(
+                OfficeEntry.TABLE_NAME,
+                pOffice.toContentValues(),
+                OfficeEntry.Name + " LIKE ?",
+                new String[]{pName}
+        );
+    }
+
+    /**
+     * Method that update by OrderID for all the orderproducts entries on the database.
      * @param pProductID  the id of the product.
      * @param pOrderID the id of the order.
      * @param pOrderProduct the new orderProduct
@@ -902,6 +1052,22 @@ public class DbHelper extends SQLiteOpenHelper{
                 pOrderProduct.toContentValues(),
                 OrderProductEntry.IDProduct + " LIKE ? AND " + OrderProductEntry.IDProduct  + " LIKE ? " ,
                 new String[]{pProductID, pOrderID}
+        );
+    }
+
+    /**
+     * Method that update a Product in office.
+     * @param pOfficeName  the name of the office.
+     * @param pProductID the id of the product.
+     * @param pProductInOffice the new ProductInOffice
+     * @return a cursor with the first userRol of the database.
+     */
+    public int updateProductInOffice(String pOfficeName, String pProductID, ProductInOffice pProductInOffice) {
+        return getWritableDatabase().update(
+                ProductInOfficeEntry.TABLE_NAME,
+                pProductInOffice.toContentValues(),
+                ProductInOfficeEntry.OfficeName + " LIKE ? AND " + ProductInOfficeEntry.ProductID  + " LIKE ? " ,
+                new String[]{pOfficeName, pProductID}
         );
     }
 }

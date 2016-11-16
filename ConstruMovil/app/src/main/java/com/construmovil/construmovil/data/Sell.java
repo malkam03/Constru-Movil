@@ -5,7 +5,7 @@ import android.database.Cursor;
 import com.construmovil.construmovil.data.SellContract.SellEntry;
 
 /**
- * Created by Malcolm Davis on 11/15/2016.
+ * Created by Malcolm Davis on 11/16/2016.
  * Email: me@malcolmdavis.xyz
  */
 
