@@ -105,4 +105,6 @@
     <string name="title_activity_order_detail">Detalle de Orden</string>
     <string name="title_activity_add_edit_order">Añadir/Editar Orden</string>
     <string name="title_activity_supplier">Proveedores</string>
+    <string name="title_activity_supplier_detail">Detalle de Proveedor</string>
+    <string name="title_activity_add_edit_supplier">Añadir/Editar Proveedor</string>
 </resources>
