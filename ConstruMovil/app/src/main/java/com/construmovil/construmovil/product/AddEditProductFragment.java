@@ -17,7 +17,9 @@ package com.construmovil.construmovil.product;
 
         import com.construmovil.construmovil.R;
         import com.construmovil.construmovil.data.Product;
+        import com.construmovil.construmovil.data.ProductContract.ProductEntry;
         import com.construmovil.construmovil.data.DbHelper;
+        import com.construmovil.construmovil.data.User;
 
 /**
  * Add Edit Product Fragment.
@@ -26,6 +28,7 @@ package com.construmovil.construmovil.product;
  */
 public class AddEditProductFragment extends Fragment {
     private static final String ARG_PRODUCT_ID = "arg_product_id";
+    private static final String idSeller = null;
 
     private String mProductId;
 
@@ -39,6 +42,7 @@ public class AddEditProductFragment extends Fragment {
     private TextInputEditText mDescriptionProductField;
     private TextInputEditText mPriceProductField;
     private TextInputEditText mExemptProductField;
+    private TextInputEditText mSellerProductField;
 
     private TextInputLayout mNameProductLabel;
     private TextInputLayout mIdProductLabel;
@@ -47,6 +51,7 @@ public class AddEditProductFragment extends Fragment {
     private TextInputLayout mDescriptionProductLabel;
     private TextInputLayout mPriceProductLabel;
     private TextInputLayout mExemptProductLabel;
+    private TextInputLayout mSellerProductLabel;
 
     public AddEditProductFragment() {
         // Required empty public constructor
@@ -81,6 +86,7 @@ public class AddEditProductFragment extends Fragment {
         mDescriptionProductField= (TextInputEditText) root.findViewById(R.id.et_product_description);
         mPriceProductField = (TextInputEditText) root.findViewById(R.id.et_product_price);
         mExemptProductField = (TextInputEditText) root.findViewById(R.id.et_product_exempt);
+        mSellerProductField = (TextInputEditText) root.findViewById(R.id.et_product_seller);
 
         mNameProductLabel = (TextInputLayout) root.findViewById(R.id.til_product_name);
         mCategoryProductLabel = (TextInputLayout) root.findViewById(R.id.til_product_category_id);
@@ -88,6 +94,8 @@ public class AddEditProductFragment extends Fragment {
         mDescriptionProductLabel = (TextInputLayout) root.findViewById(R.id.til_product_description);
         mPriceProductLabel = (TextInputLayout) root.findViewById(R.id.til_product_price);
         mExemptProductLabel = (TextInputLayout) root.findViewById(R.id.til_product_exempt);
+        mSellerProductLabel = (TextInputLayout) root.findViewById(R.id.til_product_seller);
+
 
         //Eventos
         mSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -113,13 +121,14 @@ public class AddEditProductFragment extends Fragment {
     private void addEditProduct() {
         boolean error = false;
 
-        String idProduct = definir el id;
+        String idProduct = mSellerProductField.getText().toString() + mProductId;
         String nameProduct = mNameProductField.getText().toString();
         String idCategoryProduct = mCategoryProductField.getText().toString();
         String cedJurProduct = mCedJurProductField.getText().toString();
         String descriptionProduct = mDescriptionProductField.getText().toString();
         String priceProduct = mPriceProductField.getText().toString();
         String exemptProduct = mExemptProductField.getText().toString();
+        String sellerProduct = mSellerProductField.getText().toString();
 
 
         if(TextUtils.isEmpty(nameProduct)) {
@@ -144,6 +153,10 @@ public class AddEditProductFragment extends Fragment {
         }
         if(TextUtils.isEmpty(exemptProduct)) {
             mExemptProductLabel.setError(getString(R.string.field_error));
+            error = true;
+        }
+        if(TextUtils.isEmpty(sellerProduct)) {
+            mSellerProductLabel.setError(getString(R.string.field_error));
             error = true;
         }
         if(error) {

@@ -125,11 +125,11 @@ public class ProductDetailFragment extends Fragment {
         mCedJurProduct.setText(product.getSupplierID());
         mDescriptionProduct.setText(product.getDescription());
         mPriceProduct.setText(product.getPrice());
-        if (product.isExempt()) {
+        if (product.getExempt() == 1) {
             mExemptProduct.setText("Sí");
         }
         else {
-            mExemptProduct.setText("Sí");
+            mExemptProduct.setText("No");
         }
 
     }
