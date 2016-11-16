@@ -19,7 +19,7 @@ public class Product {
     private String supplierID;
     private String description;
     private int price;
-    private boolean exempt;
+    private int exempt;
 
     /**
      * Constructor of the Product Class
@@ -32,7 +32,7 @@ public class Product {
      * @param pExempt tells if the product is exempt from taxes.
      */
     public Product(String pID, String pProductName, String pCategoryID, String
-                    pSupplierID, String pDescription, int pPrice, boolean pExempt){
+                    pSupplierID, String pDescription, int pPrice, int pExempt){
         this.id = pID;
         this.productName = pProductName;
         this.categoryID = pCategoryID;
@@ -53,7 +53,7 @@ public class Product {
         this.supplierID = pCursor.getString(pCursor.getColumnIndex(ProductEntry.SupplierID));
         this.description = pCursor.getString(pCursor.getColumnIndex(ProductEntry.Description));
         this.price = pCursor.getInt(pCursor.getColumnIndex(ProductEntry.Price));
-        this.exempt = pCursor.getInt(pCursor.getColumnIndex(ProductEntry.Exempt)) == 1;
+        this.exempt = pCursor.getInt(pCursor.getColumnIndex(ProductEntry.Exempt));
     }
 
     /**
@@ -68,11 +68,7 @@ public class Product {
         values.put(ProductEntry.SupplierID, this.supplierID);
         values.put(ProductEntry.Description, this.description);
         values.put(ProductEntry.Price, this.price);
-        int tmpExcent =0;
-        if(this.exempt){
-            tmpExcent = 1;
-        }
-        values.put(ProductEntry.Exempt, tmpExcent);
+        values.put(ProductEntry.Exempt, this.exempt);
         return values;
     }
 
@@ -130,7 +126,7 @@ public class Product {
      * Method that says if the product is exempt from taxes.
      * @return a boolean with the condition isExempt?
      */
-    public boolean isExempt() {
+    public int getExempt() {
         return exempt;
     }
 }

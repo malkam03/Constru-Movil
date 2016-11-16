@@ -12,6 +12,8 @@ import static com.construmovil.construmovil.data.UserRolContract.UserRolEntry;
 import static com.construmovil.construmovil.data.SupplierContract.SupplierEntry;
 import static com.construmovil.construmovil.data.ProductContract.ProductEntry;
 import static com.construmovil.construmovil.data.CategoryContract.CategoryEntry;
+import static com.construmovil.construmovil.data.OrderProductContract.OrderProductEntry;
+import static com.construmovil.construmovil.data.OrderContract.OrderEntry;
 
 /**
  * Created by Malcolm Davis on 11/12/2016.
@@ -64,20 +66,33 @@ public class DbHelper extends SQLiteOpenHelper{
                     SupplierEntry.BusinessName + " TEXT NOT NULL )");
         //*********************PRODUCT TABLE *********************//
         pDb.execSQL("CREATE TABLE " + ProductEntry.TABLE_NAME + " (" +
-                ProductEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                ProductEntry.Name + " TEXT UNIQUE NOT NULL, "+
-                ProductEntry.ID +  " TEXT UNIQUE NOT NULL," +
-                ProductEntry.CategoryID + " TEXT NOT NULL, " +
-                ProductEntry.SupplierID + " TEXT NOT NULL, " +
-                ProductEntry.Description + " TEXT NOT NULL, " +
-                ProductEntry.Price + "INTEGER NOT NULL, " +
-                ProductEntry.Exempt + " INTEGER DEFAULT 0 )");
+                    ProductEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                    ProductEntry.Name + " TEXT UNIQUE NOT NULL, "+
+                    ProductEntry.ID +  " TEXT UNIQUE NOT NULL," +
+                    ProductEntry.CategoryID + " TEXT NOT NULL, " +
+                    ProductEntry.SupplierID + " TEXT NOT NULL, " +
+                    ProductEntry.Description + " TEXT NOT NULL, " +
+                    ProductEntry.Price + "INTEGER NOT NULL, " +
+                    ProductEntry.Exempt + " INTEGER DEFAULT 0 )");
         //*********************CATEGORY TABLE *********************//
         pDb.execSQL("CREATE TABLE " + CategoryEntry.TABLE_NAME + " (" +
-                CategoryEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                CategoryEntry.ID +  " TEXT UNIQUE NOT NULL,"+
-                CategoryEntry.Name + " TEXT UNIQUE NOT NULL, " +
-                CategoryEntry.Description + " TEXT NOT NULL )");
+                    CategoryEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                    CategoryEntry.ID +  " TEXT UNIQUE NOT NULL,"+
+                    CategoryEntry.Name + " TEXT UNIQUE NOT NULL, " +
+                    CategoryEntry.Description + " TEXT NOT NULL )");
+        //*********************ORDER TABLE *********************//
+        pDb.execSQL("CREATE TABLE " + OrderEntry.TABLE_NAME + " (" +
+                    CategoryEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                    CategoryEntry.ID +  " TEXT UNIQUE NOT NULL,"+
+                    CategoryEntry.Name + " TEXT UNIQUE NOT NULL, " +
+                    CategoryEntry.Description + " TEXT NOT NULL )");
+        //*********************OrderProduct TABLE *********************//
+        pDb.execSQL("CREATE TABLE " + OrderProductEntry.TABLE_NAME + " (" +
+                    OrderProductEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                    OrderProductEntry.IDOrder +  " TEXT NOT NULL,"+
+                    OrderProductEntry.IDProduct + " TEXT NOT NULL, " +
+                    OrderProductEntry.Amount + " INTEGER DEFAULT 1 ," +
+                    OrderProductEntry.ActualPrice + " INTEGER NOT NULL )");
         //*********************CONSTRAINS *********************//
         mockData(pDb);
     }
@@ -138,14 +153,29 @@ public class DbHelper extends SQLiteOpenHelper{
         tmpCategory = new Category("2", "Weapons", "All you need to take down your target.");
                         /*************PRODUCT************/
         Product tmpProduct = new Product("1", "Argus", "1", "159746523",
-                "A camera to study wildlife.", 200, true );
+                "A camera to study wildlife.", 200, 0 );
         MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpProduct.toContentValues());
         tmpProduct = new Product("2", "Hephaestus", "3", "159746523",
-                "The perfect toolman for your workshop.", 400, false );
+                "The perfect toolman for your workshop.", 400, 0 );
         MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpProduct.toContentValues());
         tmpProduct = new Product("3", "Artemis", "2", "159746521",
-                "So you think you can hunt? with Artemis your game will come to you.", 300, false );
+                "So you think you can hunt? with Artemis your game will come to you.", 300, 0 );
         MockAdd(pSQLiteDatabase, SupplierEntry.TABLE_NAME, tmpProduct.toContentValues());
+                        /*************ORDER*************/
+
+                        /*************ORDERPRODUCT************/
+        OrderProduct OP = new OrderProduct("1", "1", 3,100);
+        MockAdd(pSQLiteDatabase, OrderProductEntry.TABLE_NAME, OP.toContentValues());
+        OP = new OrderProduct("2", "1", 5,50);
+        MockAdd(pSQLiteDatabase, OrderProductEntry.TABLE_NAME, OP.toContentValues());
+        OP = new OrderProduct("3", "1", 2,10);
+        MockAdd(pSQLiteDatabase, OrderProductEntry.TABLE_NAME, OP.toContentValues());
+        OP = new OrderProduct("1", "2", 3,100);
+        MockAdd(pSQLiteDatabase, OrderProductEntry.TABLE_NAME, OP.toContentValues());
+        OP = new OrderProduct("2", "2", 5,50);
+        MockAdd(pSQLiteDatabase, OrderProductEntry.TABLE_NAME, OP.toContentValues());
+        OP = new OrderProduct("3", "3", 2,10);
+        MockAdd(pSQLiteDatabase, OrderProductEntry.TABLE_NAME, OP.toContentValues());
 
     }
 
@@ -192,6 +222,16 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that saves a OrderProduct on the database.
+     * @param pOP the OrderProduct to store into the database.
+     * @return state of the insert query.
+     */
+    public long saveOrderProduct(OrderProduct pOP){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(OrderProductEntry.TABLE_NAME, null, pOP.toContentValues());
+    }
+
+    /**
      * Method that saves a User data on the database.
      * @param pUser the user data to store into the database.
      * @return state of the insert query.
@@ -213,12 +253,22 @@ public class DbHelper extends SQLiteOpenHelper{
 
     /**
      * Method that saves a supplier on the database
-     * @param pSuppl the supplier data to store into the dayabase.
+     * @param pSuppl the supplier data to store into the database.
      * @return state of the insert query.
      */
     public long saveSupplier(Supplier pSuppl){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         return sqLiteDatabase.insert(SupplierEntry.TABLE_NAME, null, pSuppl.toContentValues());
+    }
+
+    /**
+     * Method that saves a Category on the database
+     * @param pCat the Category data to store into the database.
+     * @return state of the insert query.
+     */
+    public long saveCategory(Category pCat){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(CategoryEntry.TABLE_NAME, null, pCat.toContentValues());
     }
 
     /**
@@ -242,6 +292,22 @@ public class DbHelper extends SQLiteOpenHelper{
      * @return a cursor with the first User of the database.
      */
     public Cursor getAllUser() {
+        return getReadableDatabase().query(
+                UserEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search for all the categories that are on the database.
+     * @return a cursor with the first category of the database.
+     */
+    public Cursor getAllCategory() {
         return getReadableDatabase().query(
                 UserEntry.TABLE_NAME,
                 null,
@@ -300,6 +366,74 @@ public class DbHelper extends SQLiteOpenHelper{
                 null,
                 null);
     }
+
+    /**
+     * Method that search by OrderID for all the orderproducts entries on the database.
+     * @return a cursor with the first userRol of the database.
+     */
+    public Cursor getOrderProductsbyOrderID(String pOrderID) {
+        return getReadableDatabase().query(
+                OrderProductEntry.TABLE_NAME,
+                null,
+                OrderProductEntry.IDOrder + " LIKE ?",
+                new String[]{pOrderID},
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search by OrderID for all the orderproducts entries on the database.
+     * @return a cursor with the first userRol of the database.
+     */
+    public Cursor getOrderProductsbyProdcuctID(String pProductID) {
+        return getReadableDatabase().query(
+                OrderProductEntry.TABLE_NAME,
+                null,
+                OrderProductEntry.IDProduct + " LIKE ?",
+                new String[]{pProductID},
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search by OrderID for all the orderproducts entries on the database.
+     * @param pProductID  the id of the product.
+     * @param pOrderID the id of the order.
+     * @return a cursor with the first userRol of the database.
+     */
+    public Cursor getOrderProduct(String pProductID, String pOrderID) {
+        return getReadableDatabase().query(
+                OrderProductEntry.TABLE_NAME,
+                null,
+                OrderProductEntry.IDProduct + " LIKE ? AND " + OrderProductEntry.IDProduct  + " LIKE ? " ,
+                new String[]{pProductID, pOrderID},
+                null,
+                null,
+                null,
+                null);
+    }
+
+    /**
+     * Method that search fora category by ID on the database.
+     * @param pID the id of the category
+     * @return a cursor with the first category of the database.
+     */
+    public Cursor getCategory(String pID) {
+        return getReadableDatabase().query(
+                CategoryEntry.TABLE_NAME,
+                null,
+                CategoryEntry.ID + " LIKE ?",
+                new String[]{pID},
+                null,
+                null,
+                null,
+                null);
+    }
+
 
     /**
      * Method that search for a specific product on the database by it's id.
@@ -430,6 +564,19 @@ public class DbHelper extends SQLiteOpenHelper{
                 new String[]{pUserName, pIDRol});
     }
 
+    /**
+     * Method that delete by OrderID and Product ID for all the orderproducts entries on the database.
+     * @param pProductID  the id of the product.
+     * @param pOrderID the id of the order.
+     * @return a cursor with the first userRol of the database.
+     */
+    public int deleteOrderProduct(String pProductID, String pOrderID) {
+        return getReadableDatabase().delete(
+                OrderProductEntry.TABLE_NAME,
+                OrderProductEntry.IDProduct + " LIKE ? AND " + OrderProductEntry.IDProduct  + " LIKE ? " ,
+                new String[]{pProductID, pOrderID});
+    }
+
 
     /**
      * Method that deletes a specific user whom the entered username corresponds to.
@@ -467,6 +614,18 @@ public class DbHelper extends SQLiteOpenHelper{
                 new String[]{pID});
     }
 
+    /**
+     * Method that deletes a specific Category whom the entered id corresponds to.
+     * @param pID the id of the category.
+     * @return state of the delete query.
+     */
+    public int deleteCategory(String pID) {
+        return getWritableDatabase().delete(
+                CategoryEntry.TABLE_NAME,
+                CategoryEntry.ID + " LIKE ?",
+                new String[]{pID});
+    }
+
 
     /**
      * Method that updates a specific person whom the entered ID corresponds to.
@@ -499,6 +658,21 @@ public class DbHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Method that updates a specific category whom the entered ID corresponds to.
+     * @param pCat new category to update.
+     * @param pID the identifier of the category.
+     * @return state of the update query.
+     */
+    public int updateCategory(Category pCat, String pID) {
+        return getWritableDatabase().update(
+                CategoryEntry.TABLE_NAME,
+                pCat.toContentValues(),
+                CategoryEntry.ID + " LIKE ?",
+                new String[]{pID}
+        );
+    }
+
+    /**
      * Method that updates a specific supplier whom the entered ID corresponds to.
      * @param pSupplier the new supplier to update.
      * @param pID the ID of the business
@@ -525,6 +699,22 @@ public class DbHelper extends SQLiteOpenHelper{
                 pProduct.toContentValues(),
                 ProductEntry.ID + " LIKE ?",
                 new String[]{pID}
+        );
+    }
+
+    /**
+     * Method that search by OrderID for all the orderproducts entries on the database.
+     * @param pProductID  the id of the product.
+     * @param pOrderID the id of the order.
+     * @param pOrderProduct the new orderProduct
+     * @return a cursor with the first userRol of the database.
+     */
+    public int updateOrderProduct(String pProductID, String pOrderID, OrderProduct pOrderProduct) {
+        return getWritableDatabase().update(
+                OrderProductEntry.TABLE_NAME,
+                pOrderProduct.toContentValues(),
+                OrderProductEntry.IDProduct + " LIKE ? AND " + OrderProductEntry.IDProduct  + " LIKE ? " ,
+                new String[]{pProductID, pOrderID}
         );
     }
 }
