@@ -73,6 +73,18 @@
         <activity
             android:name=".category.AddEditCategoryActivity"
             android:label="@string/title_activity_add_edit_category"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".office.OfficeActivity"
+            android:label="@string/title_activity_office"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".office.OfficeDetailActivity"
+            android:label="@string/title_activity_office_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".office.AddEditOfficeActivity"
+            android:label="@string/title_activity_add_edit_office"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
