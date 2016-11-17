@@ -110,4 +110,7 @@
     <string name="title_activity_product">Productos</string>
     <string name="title_activity_product_detail">Detalle de Producto</string>
     <string name="title_activity_add_edit_product">Añadir / Editar Producto</string>
+    <string name="title_activity_category">Categoría</string>
+    <string name="title_activity_category_detail">Detalle de Categoría</string>
+    <string name="title_activity_add_edit_category">Añadir / Editar Categoría</string>
 </resources>

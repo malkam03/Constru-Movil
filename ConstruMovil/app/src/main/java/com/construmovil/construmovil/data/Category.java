@@ -65,7 +65,7 @@ public class Category {
      * Method that returns the Category's name.
      * @return a string with the name of the Category.
      */
-    public String getProductName() {
+    public String getCategoryName() {
         return categoryName;
     }
 

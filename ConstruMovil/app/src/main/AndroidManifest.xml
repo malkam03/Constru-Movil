@@ -61,6 +61,18 @@
         <activity
             android:name=".product.AddEditProductActivity"
             android:label="@string/title_activity_add_edit_product"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".category.CategoryActivity"
+            android:label="@string/title_activity_category"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".category.CategoryDetailActivity"
+            android:label="@string/title_activity_category_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".category.AddEditCategoryActivity"
+            android:label="@string/title_activity_add_edit_category"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
