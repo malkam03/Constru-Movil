@@ -131,7 +131,7 @@ public class OrderFragment extends Fragment {
 
         @Override
         protected Cursor doInBackground(Void... voids) {
-            return mDbHelper.getAllPersons();
+            return mDbHelper.getAllOrders();
         }
 
         @Override

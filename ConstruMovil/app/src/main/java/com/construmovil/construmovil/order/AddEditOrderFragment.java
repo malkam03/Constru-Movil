@@ -4,6 +4,7 @@ package com.construmovil.construmovil.order;
 
 import android.app.Activity;
 import android.database.Cursor;
+import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +21,9 @@ import com.construmovil.construmovil.R;
 import com.construmovil.construmovil.data.DbHelper;
 import com.construmovil.construmovil.data.Order;
 import com.construmovil.construmovil.data.OrderContract;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Fragment for Add/Edit View.
@@ -80,14 +84,10 @@ public class AddEditOrderFragment extends Fragment {
         mUserOrderField = (TextInputEditText) root.findViewById(R.id.et_user_order);
         mBranchOfficeOrderField = (TextInputEditText) root.findViewById(R.id.et_branch_office_order);
         mPhoneNumberOrderField = (TextInputEditText) root.findViewById(R.id.et_phone_number_order);
-        mEtaOrderField = (TextInputEditText) root.findViewById(R.id.et_eta_order);
-        mTimeOrderField = (TextInputEditText) root.findViewById(R.id.et_time_order);
 
         mUserOrderLabel = (TextInputLayout) root.findViewById(R.id.til_user_order);
         mBranchOfficeOrderLabel = (TextInputLayout) root.findViewById(R.id.til_branch_office_order);
         mPhoneNumberOrderLabel = (TextInputLayout) root.findViewById(R.id.til_phone_number_order);
-        mEtaOrderLabel = (TextInputLayout) root.findViewById(R.id.til_eta_order);
-        mTimeOrderLabel = (TextInputLayout) root.findViewById(R.id.til_time_order);
 
         //Eventos
         mSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -116,10 +116,13 @@ public class AddEditOrderFragment extends Fragment {
         String idOrder = OrderContract.OrderEntry._ID + mUserOrderField.getText().toString();
         String userOrder = mUserOrderField.getText().toString();
         String branchOfficeOrder = mBranchOfficeOrderField.getText().toString();
-        String stateOrder = mStateOrderField.getText().toString();
+        String stateOrder = "En Proceso";
         String phoneNumberOrder = mPhoneNumberOrderField.getText().toString();
-        String etaOrder = mEtaOrderField.getText().toString();
-        String timeOrder = mTimeOrderField.getText().toString();
+        String etaOrder = "1 hora";
+
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String timeOrder = df.format(c.getTime());
 
 
         if(TextUtils.isEmpty(idOrder)) {
@@ -134,20 +137,8 @@ public class AddEditOrderFragment extends Fragment {
             mBranchOfficeOrderLabel.setError(getString(R.string.field_error));
             error = true;
         }
-        if(TextUtils.isEmpty(stateOrder)) {
-            mStateOrderLabel.setError(getString(R.string.field_error));
-            error = true;
-        }
         if(TextUtils.isEmpty(phoneNumberOrder)) {
             mPhoneNumberOrderLabel.setError(getString(R.string.field_error));
-            error = true;
-        }
-        if(TextUtils.isEmpty(etaOrder)) {
-            mEtaOrderLabel.setError(getString(R.string.field_error));
-            error = true;
-        }
-        if(TextUtils.isEmpty(timeOrder)) {
-            mTimeOrderLabel.setError(getString(R.string.field_error));
             error = true;
         }
         if(error) {

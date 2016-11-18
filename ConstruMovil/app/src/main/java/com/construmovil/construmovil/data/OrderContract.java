@@ -18,6 +18,7 @@ public class OrderContract {
         public static final String OfficeName = "NSucursal";
         public static final String State = "Estado";
         public static final String Phone = "Telefono";
+        public static final String Price = "Precio";
         public static final String ETA = "ETA";
         public static final String OrderTime = "Hora";
     }

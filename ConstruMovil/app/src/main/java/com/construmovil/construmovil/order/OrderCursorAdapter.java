@@ -44,10 +44,10 @@ public class OrderCursorAdapter extends CursorAdapter {
         TextView nameText = (TextView) view.findViewById(R.id.tv_ordername);
 
         // Get valores.
-        String name = cursor.getString(cursor.getColumnIndex(OrderEntry.UserName));
+        String username = cursor.getString(cursor.getColumnIndex(OrderEntry.UserName));
 
 
         // Setup.
-        nameText.setText(name);
+        nameText.setText(username);
     }
 }

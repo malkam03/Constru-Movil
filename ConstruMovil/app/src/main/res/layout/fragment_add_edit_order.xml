@@ -36,9 +36,9 @@
                 android:id="@+id/et_branch_office_order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Contraseña"
-                android:inputType="textPassword"
-                tools:text="Contraseña" />
+                android:hint="Sucursal"
+                android:inputType="text"
+                tools:text="Sucursal" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -56,40 +56,6 @@
                 android:inputType="text"
                 tools:text="Número de Teléfono" />
         </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/til_eta_order"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/et_eta_order"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Tiempo Estimado"
-                android:imeOptions="actionDone"
-                android:inputType="datetime"
-                tools:text="Tiempo Estimado" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/til_time_order"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/et_time_order"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top|start"
-                android:hint="Hora de Creación"
-                android:imeOptions="actionDone"
-                android:inputType="text|textMultiLine"
-                tools:text="Hora de Creación" />
-        </android.support.design.widget.TextInputLayout>
-
 
     </LinearLayout>
 </ScrollView>

@@ -48,7 +48,7 @@ public class DbHelper extends SQLiteOpenHelper{
         // ***************UserRol TABLE*************************//
         pDb.execSQL("CREATE TABLE " + UserRolEntry.TABLE_NAME + " (" +
                     UserRolEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                    UserRolEntry.IDRol + " TEXT UNIQUE NOT NULL," +
+                    UserRolEntry.IDRol + " TEXT NOT NULL," +
                     UserRolEntry.UserName + " TEXT NOT NULL)");
         // ***************PERSON TABLE*************************//
         pDb.execSQL("CREATE TABLE " + PersonEntry.TABLE_NAME + " (" +
@@ -99,9 +99,9 @@ public class DbHelper extends SQLiteOpenHelper{
                     OrderEntry._ID +  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                     OrderEntry.ID +  " TEXT UNIQUE NOT NULL,"+
                     OrderEntry.UserName + " TEXT NOT NULL, " +
-                    OrderEntry.OfficeName +  " TEXT UNIQUE NOT NULL,"+
+                    OrderEntry.OfficeName +  " TEXT NOT NULL,"+
                     OrderEntry.State + " TEXT NOT NULL, " +
-                    OrderEntry.Phone +  " TEXT UNIQUE NOT NULL,"+
+                    OrderEntry.Phone +  " TEXT NOT NULL,"+
                     OrderEntry.ETA   + " TEXT NOT NULL, " +
                     OrderEntry.OrderTime + " TEXT NOT NULL )");
         //*********************OrderProduct TABLE *********************//
