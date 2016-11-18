@@ -118,14 +118,14 @@ public class OrderDetailFragment extends Fragment {
     }
 
     private void showOrder(Order order) {
-        mCollapsingView.setTitle(order.getUsername() + "ID Orden #" + order.getId());
+        mCollapsingView.setTitle(order.getUserName() + "ID Orden #" + order.getId());
         mIdOrder.setText(order.getId());
         mUserOrder.setText(order.getUserName());
-        mBranchOfficeOrder.setText(order.getSucursal());
+        mBranchOfficeOrder.setText(order.getOfficeName());
         mStateOrder.setText(order.getState());
-        mPhoneNumberOrder.setText(order.getPhoneNumber());
-        mETAOrder.setText(order.getETA());
-        mTimeOrder.setText(order.getTime());
+        mPhoneNumberOrder.setText(order.getPhone());
+        mETAOrder.setText(order.getEta());
+        mTimeOrder.setText(order.getOrderTime());
     }
 
     private void showEditScreen() {

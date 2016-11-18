@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.construmovil.construmovil.R;
 import com.construmovil.construmovil.data.DbHelper;
+import com.construmovil.construmovil.data.Order;
+import com.construmovil.construmovil.data.OrderContract;
 
 /**
  * Fragment for Add/Edit View.
@@ -75,18 +77,14 @@ public class AddEditOrderFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_add_edit_order, container, false);
         mSaveButton = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        mIdOrderField = (TextInputEditText) root.findViewById(R.id.et_id_order);
         mUserOrderField = (TextInputEditText) root.findViewById(R.id.et_user_order);
         mBranchOfficeOrderField = (TextInputEditText) root.findViewById(R.id.et_branch_office_order);
-        mStateOrderField = (TextInputEditText) root.findViewById(R.id.et_state_order);
         mPhoneNumberOrderField = (TextInputEditText) root.findViewById(R.id.et_phone_number_order);
         mEtaOrderField = (TextInputEditText) root.findViewById(R.id.et_eta_order);
         mTimeOrderField = (TextInputEditText) root.findViewById(R.id.et_time_order);
 
-        mIdOrderLabel = (TextInputLayout) root.findViewById(R.id.til_id_order);
         mUserOrderLabel = (TextInputLayout) root.findViewById(R.id.til_user_order);
         mBranchOfficeOrderLabel = (TextInputLayout) root.findViewById(R.id.til_branch_office_order);
-        mStateOrderLabel = (TextInputLayout) root.findViewById(R.id.til_state_order);
         mPhoneNumberOrderLabel = (TextInputLayout) root.findViewById(R.id.til_phone_number_order);
         mEtaOrderLabel = (TextInputLayout) root.findViewById(R.id.til_eta_order);
         mTimeOrderLabel = (TextInputLayout) root.findViewById(R.id.til_time_order);
@@ -115,7 +113,7 @@ public class AddEditOrderFragment extends Fragment {
     private void addEditOrder() {
         boolean error = false;
 
-        String idOrder = mIdOrderField.getText().toString();
+        String idOrder = OrderContract.OrderEntry._ID + mUserOrderField.getText().toString();
         String userOrder = mUserOrderField.getText().toString();
         String branchOfficeOrder = mBranchOfficeOrderField.getText().toString();
         String stateOrder = mStateOrderField.getText().toString();
@@ -155,7 +153,7 @@ public class AddEditOrderFragment extends Fragment {
         if(error) {
             return;
         }
-        Order order = new Order(CONSTRUCTOR);
+        Order order = new Order(idOrder,userOrder,branchOfficeOrder,stateOrder,phoneNumberOrder,etaOrder,timeOrder);
         new AddEditOrderTask().execute(order);
 
     }
@@ -176,13 +174,13 @@ public class AddEditOrderFragment extends Fragment {
     }
 
     private void showOrder(Order order) {
-        mIdOrderField.setText(order.getOrderId());
-        mUserOrderField.setText(order.getOrderUserName());
-        mBranchOfficeOrderField.setText(order.getBranchOffice());
+        mIdOrderField.setText(order.getId());
+        mUserOrderField.setText(order.getUserName());
+        mBranchOfficeOrderField.setText(order.getOfficeName());
         mStateOrderField.setText(order.getState());
-        mPhoneNumberOrderField.setText(order.getPhoneNumberOrder());
-        mEtaOrderField.setText(order.getEtaOrder());
-        mTimeOrderField.setText(order.getTime());
+        mPhoneNumberOrderField.setText(order.getPhone());
+        mEtaOrderField.setText(order.getEta());
+        mTimeOrderField.setText(order.getOrderTime());
     }
 
     private void showLoadError() {
@@ -194,7 +192,7 @@ public class AddEditOrderFragment extends Fragment {
 
         @Override
         protected Cursor doInBackground(Void... voids) {
-            return mDbHelper.getOrderById(mOrderId);
+            return mDbHelper.getOrderbyID(mOrderId);
         }
 
         @Override

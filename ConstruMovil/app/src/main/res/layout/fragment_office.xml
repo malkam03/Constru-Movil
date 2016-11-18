@@ -7,7 +7,7 @@
 
 
     <ListView
-        android:id="@+id/fragment_list"
+        android:id="@+id/office_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"

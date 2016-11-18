@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.construmovil.construmovil.R;
 import com.construmovil.construmovil.data.DbHelper;
+import com.construmovil.construmovil.data.OrderContract.OrderEntry;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -580,7 +580,7 @@ public class DbHelper extends SQLiteOpenHelper{
      * Method that search for all the orders on the database with a ID.
      * @return a cursor with the first order of the database.
      */
-    public Cursor geOrderbyID(String pID) {
+    public Cursor getOrderbyID(String pID) {
         return getReadableDatabase().query(
                 OrderEntry.TABLE_NAME,
                 null,
@@ -776,8 +776,11 @@ public class DbHelper extends SQLiteOpenHelper{
                 null,
                 null,
                 null);
-        User tmpUser = new User(cursor);
-        return tmpUser.validPass(pPassword);
+        if(cursor!=null) {
+            User tmpUser = new User(cursor);
+            return tmpUser.validPass(pPassword);
+        }
+        return false;
     }
 
     /**
@@ -1068,6 +1071,21 @@ public class DbHelper extends SQLiteOpenHelper{
                 pProductInOffice.toContentValues(),
                 ProductInOfficeEntry.OfficeName + " LIKE ? AND " + ProductInOfficeEntry.ProductID  + " LIKE ? " ,
                 new String[]{pOfficeName, pProductID}
+        );
+    }
+
+    /**
+     * Method that updates a specific office whom the entered name corresponds to.
+     * @param pOffice the new office to update.
+     * @param pName the pName of the office
+     * @return state of the update query.
+     */
+    public int updateOffice(Office pOffice, String pName) {
+        return getWritableDatabase().update(
+                OfficeEntry.TABLE_NAME,
+                pOffice.toContentValues(),
+                OfficeEntry.Name + " LIKE ?",
+                new String[]{pName}
         );
     }
 }
