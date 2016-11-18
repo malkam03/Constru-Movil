@@ -18,6 +18,7 @@ public class Order {
     private String officeName;
     private String state;
     private String phone;
+    private int price;
     private String eta;
     private String orderTime;
 
@@ -38,12 +39,36 @@ public class Order {
         this.officeName = pOfficeName;
         this.state = pState;
         this.phone = pPhone;
+        this.price = 0;
         this.eta = pEta;
         this.orderTime = pOrderTime;
     }
 
     /**
-     * Second constructor of the Order Class.
+     * Constructor of the Order Class
+     * @param pID the ID of the Category.
+     * @param pUserName the name of the Category.
+     * @param pOfficeName the detailed description of what the Category is.
+     * @param pState the ID of the Category.
+     * @param pPhone the name of the Category.
+     * @param pPrice tje price order.
+     * @param pEta the detailed description of what the Category is.
+     * @param pOrderTime the detailed description of what the Category is.
+     */
+    public Order(String pID, String pUserName, String pOfficeName, String pState,
+                 String pPhone, String pEta, String pOrderTime, int pPrice){
+        this.id = pID;
+        this.userName = pUserName;
+        this.officeName = pOfficeName;
+        this.state = pState;
+        this.phone = pPhone;
+        this.price = pPrice;
+        this.eta = pEta;
+        this.orderTime = pOrderTime;
+    }
+
+    /**
+     * Constructor of the Order Class.
      * @param pCursor a cursor with the data of the Order.
      */
     public Order(Cursor pCursor){
@@ -52,6 +77,7 @@ public class Order {
         this.officeName = pCursor.getString(pCursor.getColumnIndex(OrderEntry.OfficeName));
         this.state = pCursor.getString(pCursor.getColumnIndex(OrderEntry.State));
         this.phone = pCursor.getString(pCursor.getColumnIndex(OrderEntry.Phone));
+        this.price = pCursor.getInt(pCursor.getColumnIndex(OrderEntry.Price));
         this.eta = pCursor.getString(pCursor.getColumnIndex(OrderEntry.ETA));
         this.orderTime = pCursor.getString(pCursor.getColumnIndex(OrderEntry.OrderTime));
     }
@@ -67,6 +93,7 @@ public class Order {
         values.put(OrderEntry.OfficeName, this.officeName);
         values.put(OrderEntry.State, this.state);
         values.put(OrderEntry.Phone, this.phone);
+        values.put(OrderEntry.Price, this.price);
         values.put(OrderEntry.ETA, this.eta);
         values.put(OrderEntry.OrderTime, this.orderTime);
         return values;
@@ -128,6 +155,22 @@ public class Order {
      */
     public String getOrderTime() {
         return orderTime;
+    }
+
+    /**
+     * Method that sets the price of a order
+     * @param price
+     */
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    /**
+     * Method that returns the Order's Price.
+     * @return a string with the price of the Order.
+     */
+    public int getPrice() {
+        return price;
     }
 
 }
