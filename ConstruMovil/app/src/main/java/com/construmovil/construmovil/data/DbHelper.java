@@ -270,7 +270,28 @@ public class DbHelper extends SQLiteOpenHelper{
      */
     @Override
     public void onUpgrade(SQLiteDatabase pDb, int pOldVersion, int pNewVersion) {
-        // Later
+        String query;
+        query = "DROP TABLE IF EXISTS Usuario";
+        pDb.execSQL(query);
+        query = "DROP TABLE IF EXISTS Proveedor";
+        pDb.execSQL(query);
+        query = "DROP TABLE IF EXISTS Pedido";
+        pDb.execSQL(query);
+        query = "DROP TABLE IF EXISTS Producto";
+        pDb.execSQL(query);
+        query = "DROP TABLE IF EXISTS Sucursal";
+        pDb.execSQL(query);
+        query = "DROP TABLE IF EXISTS UsuarioRol";
+        pDb.execSQL(query);
+        query = "DROP TABLE IF EXISTS Categoria";
+        pDb.execSQL(query);
+        query = "DROP TABLE IF EXISTS Persona";
+        pDb.execSQL(query);
+        query = "DROP TABLE IF EXISTS ProductoPedido";
+        pDb.execSQL(query);
+        query = "DROP TABLE IF EXISTS Venta";
+        pDb.execSQL(query);
+        onCreate(pDb);
     }
 
     /**
