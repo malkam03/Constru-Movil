@@ -21,9 +21,9 @@
             android:id="@+id/et_business_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Cédula Jurídica"
+            android:hint="Empresa"
             android:inputType="text"
-            tools:text="Cédula Jurídica" />
+            tools:text="Empresa" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/til_ced_jur"

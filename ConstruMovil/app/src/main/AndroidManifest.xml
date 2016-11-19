@@ -90,16 +90,15 @@
             android:name=".login.LoginActivity"
             android:label="Ingresar"
             android:theme="@style/AppTheme.NoActionBar">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".home.HomeActivity"
             android:label="Constru-Movil"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

@@ -772,16 +772,16 @@ public class DbHelper extends SQLiteOpenHelper{
         Cursor cursor = getReadableDatabase().query(
                 UserEntry.TABLE_NAME,
                 null,
-                UserEntry.UserName + " LIKE ?",
-                new String[]{pUsername},
+                UserEntry.UserName + " LIKE ? AND " + UserEntry.Password + " LIKE ? ",
+                new String[]{pUsername, pPassword},
                 null,
                 null,
                 null);
-        if(cursor!=null) {
-            User tmpUser = new User(cursor);
-            return tmpUser.validPass(pPassword);
+        if(cursor!=null && cursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**

@@ -31,8 +31,9 @@ public class User {
      * @param pCursor a cursor with the data of the User.
      */
     public User(Cursor pCursor){
-        this.password = pCursor.getString(pCursor.getColumnIndex(UserEntry.Password));
         this.userName = pCursor.getString(pCursor.getColumnIndex(UserEntry.UserName));
+        this.password = pCursor.getString(pCursor.getColumnIndex(UserEntry.Password));
+
     }
 
     /**
@@ -60,7 +61,12 @@ public class User {
      * @return boolean value responding the question is the password.
      */
     public boolean validPass(String pPass) {
-        return this.password == pPass;
+        if (this.password == pPass) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 
