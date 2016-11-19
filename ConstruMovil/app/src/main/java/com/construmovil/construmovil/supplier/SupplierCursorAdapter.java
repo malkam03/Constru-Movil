@@ -40,7 +40,7 @@ public class SupplierCursorAdapter extends CursorAdapter {
     public void bindView(View view, final Context context, Cursor cursor) {
 
         // Referencias UI.
-        TextView nameText = (TextView) view.findViewById(R.id.tv_business_name);
+        TextView nameText = (TextView) view.findViewById(R.id.tv_supplier_name);
 
         // Get valores.
         String name = cursor.getString(cursor.getColumnIndex(SupplierEntry.BusinessName));

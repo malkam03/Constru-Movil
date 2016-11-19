@@ -75,7 +75,7 @@ public class DbHelper extends SQLiteOpenHelper{
                     ProductEntry.CategoryID + " TEXT NOT NULL, " +
                     ProductEntry.SupplierID + " TEXT NOT NULL, " +
                     ProductEntry.Description + " TEXT NOT NULL, " +
-                    ProductEntry.Price + "INTEGER NOT NULL, " +
+                    ProductEntry.Price + " INTEGER NOT NULL, " +
                     ProductEntry.Exempt + " INTEGER DEFAULT 0 )");
         //*********************CATEGORY TABLE *********************//
         pDb.execSQL("CREATE TABLE " + CategoryEntry.TABLE_NAME + " (" +
@@ -100,6 +100,7 @@ public class DbHelper extends SQLiteOpenHelper{
                     OrderEntry.ID +  " TEXT UNIQUE NOT NULL,"+
                     OrderEntry.UserName + " TEXT NOT NULL, " +
                     OrderEntry.OfficeName +  " TEXT NOT NULL,"+
+                    OrderEntry.Price + " INTEGER DEFAULT 0, " +
                     OrderEntry.State + " TEXT NOT NULL, " +
                     OrderEntry.Phone +  " TEXT NOT NULL,"+
                     OrderEntry.ETA   + " TEXT NOT NULL, " +
@@ -469,7 +470,7 @@ public class DbHelper extends SQLiteOpenHelper{
      */
     public Cursor getAllCategory() {
         return getReadableDatabase().query(
-                UserEntry.TABLE_NAME,
+                CategoryEntry.TABLE_NAME,
                 null,
                 null,
                 null,
@@ -753,7 +754,7 @@ public class DbHelper extends SQLiteOpenHelper{
         Cursor cursor = getReadableDatabase().query(
                 SupplierEntry.TABLE_NAME,
                 null,
-                PersonEntry.ID + " LIKE ?",
+                SupplierEntry.ID + " LIKE ?",
                 new String[]{pID},
                 null,
                 null,
@@ -1005,9 +1006,9 @@ public class DbHelper extends SQLiteOpenHelper{
      */
     public int updateSupplier(Supplier pSupplier, String pID) {
         return getWritableDatabase().update(
-                UserEntry.TABLE_NAME,
+                SupplierEntry.TABLE_NAME,
                 pSupplier.toContentValues(),
-                UserEntry.UserName + " LIKE ?",
+                SupplierEntry.ID + " LIKE ?",
                 new String[]{pID}
         );
     }

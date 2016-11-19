@@ -156,7 +156,7 @@ public class OrderDetailFragment extends Fragment {
 
         @Override
         protected Cursor doInBackground(Void... voids) {
-            return mDbHelper.getPersonById(mOrderId);
+            return mDbHelper.getOrderbyID(mOrderId);
         }
 
         @Override
@@ -174,7 +174,7 @@ public class OrderDetailFragment extends Fragment {
 
         @Override
         protected Integer doInBackground(Void... voids) {
-            return mDbHelper.deletePerson(mOrderId);
+            return mDbHelper.deleteOrder(mOrderId);
         }
 
         @Override

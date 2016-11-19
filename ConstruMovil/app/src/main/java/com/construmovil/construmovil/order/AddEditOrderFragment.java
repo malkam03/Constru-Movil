@@ -121,7 +121,7 @@ public class AddEditOrderFragment extends Fragment {
         String etaOrder = "1 hora";
 
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("hh-mm-dd-MMM-yyyy");
         String timeOrder = df.format(c.getTime());
 
 

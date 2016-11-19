@@ -121,6 +121,8 @@ public class AddEditCategoryFragment extends Fragment {
         }
 
         Category category = new Category(idCategory, nameCategory, descriptionCategory);
+        new AddEditCategoryTask().execute(category);
+
     }
 
     private void showCategoryScreen(Boolean requery) {

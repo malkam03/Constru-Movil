@@ -9,7 +9,7 @@
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        tools:context=".clients.AddEditClientActivity">
+        tools:context="com.construmovil.construmovil.product.AddEditProductActivity">
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/til_product_name"
@@ -103,20 +103,5 @@
                 tools:text="Exento (0:F|1:V)" />
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/til_product_seller"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/et_product_seller"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nombre de Usuario"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                tools:text="Nombre de Usuario" />
-        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 </ScrollView>

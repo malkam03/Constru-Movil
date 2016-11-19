@@ -25,10 +25,6 @@
             android:name=".order.OrderActivity"
             android:label="@string/title_activity_order"
             android:theme="@style/AppTheme.NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".order.OrderDetailActivity"
@@ -41,7 +37,8 @@
         <activity
             android:name=".supplier.SupplierActivity"
             android:label="@string/title_activity_supplier"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
         <activity
             android:name=".supplier.SupplierDetailActivity"
             android:label="@string/title_activity_supplier_detail"
@@ -53,7 +50,8 @@
         <activity
             android:name=".product.ProductActivity"
             android:label="@string/title_activity_product"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
         <activity
             android:name=".product.ProductDetailActivity"
             android:label="@string/title_activity_product_detail"
@@ -65,7 +63,8 @@
         <activity
             android:name=".category.CategoryActivity"
             android:label="@string/title_activity_category"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".category.CategoryDetailActivity"
             android:label="@string/title_activity_category_detail"
@@ -77,7 +76,12 @@
         <activity
             android:name=".office.OfficeActivity"
             android:label="@string/title_activity_office"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".office.OfficeDetailActivity"
             android:label="@string/title_activity_office_detail"

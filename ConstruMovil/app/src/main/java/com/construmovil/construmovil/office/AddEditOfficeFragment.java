@@ -154,7 +154,7 @@ public class AddEditOfficeFragment extends Fragment {
 
         @Override
         protected Cursor doInBackground(Void... voids) {
-            return mDbHelper.getPersonById(mOfficeId);
+            return mDbHelper.getOffice(mOfficeId);
         }
 
         @Override

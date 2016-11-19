@@ -13,14 +13,14 @@ public class OrderDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client_detail);
+        setContentView(R.layout.activity_order_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         String id = getIntent().getStringExtra(OrderActivity.EXTRA_ORDER_ID);
 
         OrderDetailFragment fragment = (OrderDetailFragment)
-                getSupportFragmentManager().findFragmentById(R.id.client_detail_container);
+                getSupportFragmentManager().findFragmentById(R.id.order_detail_container);
         if (fragment == null) {
             fragment = OrderDetailFragment.newInstance(id);
             getSupportFragmentManager()
@@ -31,7 +31,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_client_detail, menu);
+        getMenuInflater().inflate(R.menu.menu_order_detail, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

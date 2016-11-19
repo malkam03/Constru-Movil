@@ -141,7 +141,7 @@ public class OfficeDetailFragment extends Fragment {
 
         @Override
         protected Cursor doInBackground(Void... voids) {
-            return mDbHelper.getPersonById(mOfficeId);
+            return mDbHelper.getOffice(mOfficeId);
         }
 
         @Override
@@ -159,7 +159,7 @@ public class OfficeDetailFragment extends Fragment {
 
         @Override
         protected Integer doInBackground(Void... voids) {
-            return mDbHelper.deletePerson(mOfficeId);
+            return mDbHelper.deleteOffice(mOfficeId);
         }
 
         @Override

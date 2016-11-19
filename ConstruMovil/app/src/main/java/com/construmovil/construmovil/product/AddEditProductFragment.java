@@ -5,6 +5,7 @@ package com.construmovil.construmovil.product;
         import android.database.Cursor;
         import android.os.AsyncTask;
         import android.os.Bundle;
+        import android.widget.EditText;
         import android.support.design.widget.FloatingActionButton;
         import android.support.design.widget.TextInputEditText;
         import android.support.design.widget.TextInputLayout;
@@ -19,7 +20,7 @@ package com.construmovil.construmovil.product;
         import com.construmovil.construmovil.data.Product;
         import com.construmovil.construmovil.data.ProductContract.ProductEntry;
         import com.construmovil.construmovil.data.DbHelper;
-        import com.construmovil.construmovil.data.User;
+        import com.construmovil.construmovil.login.LoginActivity;
 
 /**
  * Add Edit Product Fragment.
@@ -28,30 +29,29 @@ package com.construmovil.construmovil.product;
  */
 public class AddEditProductFragment extends Fragment {
     private static final String ARG_PRODUCT_ID = "arg_product_id";
+
     private static final String idSeller = null;
 
     private String mProductId;
+    private String mCurrentUser;
 
     private DbHelper mDbHelper;
 
+
     private FloatingActionButton mSaveButton;
     private TextInputEditText mNameProductField;
-    private TextInputEditText mIdProductField;
     private TextInputEditText mCategoryProductField;
     private TextInputEditText mCedJurProductField;
     private TextInputEditText mDescriptionProductField;
     private TextInputEditText mPriceProductField;
     private TextInputEditText mExemptProductField;
-    private TextInputEditText mSellerProductField;
 
     private TextInputLayout mNameProductLabel;
-    private TextInputLayout mIdProductLabel;
     private TextInputLayout mCategoryProductLabel;
     private TextInputLayout mCedJurProductLabel;
     private TextInputLayout mDescriptionProductLabel;
     private TextInputLayout mPriceProductLabel;
     private TextInputLayout mExemptProductLabel;
-    private TextInputLayout mSellerProductLabel;
 
     public AddEditProductFragment() {
         // Required empty public constructor
@@ -86,7 +86,6 @@ public class AddEditProductFragment extends Fragment {
         mDescriptionProductField= (TextInputEditText) root.findViewById(R.id.et_product_description);
         mPriceProductField = (TextInputEditText) root.findViewById(R.id.et_product_price);
         mExemptProductField = (TextInputEditText) root.findViewById(R.id.et_product_exempt);
-        mSellerProductField = (TextInputEditText) root.findViewById(R.id.et_product_seller);
 
         mNameProductLabel = (TextInputLayout) root.findViewById(R.id.til_product_name);
         mCategoryProductLabel = (TextInputLayout) root.findViewById(R.id.til_product_category_id);
@@ -94,8 +93,7 @@ public class AddEditProductFragment extends Fragment {
         mDescriptionProductLabel = (TextInputLayout) root.findViewById(R.id.til_product_description);
         mPriceProductLabel = (TextInputLayout) root.findViewById(R.id.til_product_price);
         mExemptProductLabel = (TextInputLayout) root.findViewById(R.id.til_product_exempt);
-        mSellerProductLabel = (TextInputLayout) root.findViewById(R.id.til_product_seller);
-
+        mCurrentUser = ((EditText) inflater.inflate(R.layout.activity_login, container, false).findViewById(R.id.til_login_user)).getText().toString();
 
         //Eventos
         mSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -121,15 +119,13 @@ public class AddEditProductFragment extends Fragment {
     private void addEditProduct() {
         boolean error = false;
 
-        String idProduct = mSellerProductField.getText().toString() + mProductId;
+        String idProduct = mCurrentUser;
         String nameProduct = mNameProductField.getText().toString();
         String idCategoryProduct = mCategoryProductField.getText().toString();
         String cedJurProduct = mCedJurProductField.getText().toString();
         String descriptionProduct = mDescriptionProductField.getText().toString();
         String priceProduct = mPriceProductField.getText().toString();
         String exemptProduct = mExemptProductField.getText().toString();
-        String sellerProduct = mSellerProductField.getText().toString();
-
 
         if(TextUtils.isEmpty(nameProduct)) {
             mNameProductLabel.setError(getString(R.string.field_error));
@@ -155,14 +151,9 @@ public class AddEditProductFragment extends Fragment {
             mExemptProductLabel.setError(getString(R.string.field_error));
             error = true;
         }
-        if(TextUtils.isEmpty(sellerProduct)) {
-            mSellerProductLabel.setError(getString(R.string.field_error));
-            error = true;
-        }
         if(error) {
             return;
         }
-
         Product product = new Product(idProduct, nameProduct, idCategoryProduct, cedJurProduct,
                 descriptionProduct, Integer.parseInt(priceProduct), Integer.parseInt(exemptProduct));
         new AddEditProductTask().execute(product);
@@ -187,12 +178,11 @@ public class AddEditProductFragment extends Fragment {
 
     private void showProduct(Product product) {
         mNameProductField.setText(product.getProductName());
-        mIdProductField.setText(product.getId());
         mCategoryProductField.setText(product.getCategoryID());
         mCedJurProductField.setText(product.getSupplierID());
         mDescriptionProductField.setText(product.getDescription());
-        mPriceProductField.setText(product.getPrice());
-        mExemptProductField.setText(product.getExempt());
+        mPriceProductField.setText(String.valueOf(product.getPrice()));
+        mExemptProductField.setText(String.valueOf(product.getExempt()));
     }
 
     private void showLoadError() {

@@ -14,12 +14,12 @@ public class SupplierActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clients);
+        setContentView(R.layout.activity_supplier);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         SupplierFragment fragment = (SupplierFragment)
-                getSupportFragmentManager().findFragmentById(R.id.clients_container);
+                getSupportFragmentManager().findFragmentById(R.id.supplier_container);
 
         if (fragment == null) {
             fragment = SupplierFragment.newInstance();

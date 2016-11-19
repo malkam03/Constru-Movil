@@ -124,7 +124,7 @@ public class ProductDetailFragment extends Fragment {
         mCategoryProduct.setText(product.getCategoryID());
         mCedJurProduct.setText(product.getSupplierID());
         mDescriptionProduct.setText(product.getDescription());
-        mPriceProduct.setText(product.getPrice());
+        mPriceProduct.setText(String.valueOf(product.getPrice()));
         if (product.getExempt() == 1) {
             mExemptProduct.setText("Sí");
         }
@@ -180,7 +180,7 @@ public class ProductDetailFragment extends Fragment {
 
         @Override
         protected Integer doInBackground(Void... voids) {
-            return mDbHelper.deletePerson(mProductId);
+            return mDbHelper.deleteProduct(mProductId);
         }
 
         @Override
