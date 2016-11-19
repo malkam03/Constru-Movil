@@ -58,10 +58,10 @@ public class OfficeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cursor currentItem = (Cursor) mOfficeAdapter.getItem(i);
-                String currentOfficeId = currentItem.getString(
+                String currentOfficeName = currentItem.getString(
                         currentItem.getColumnIndex(OfficeEntry.Name));
 
-                showDetailScreen(currentOfficeId);
+                showDetailScreen(currentOfficeName);
             }
         });
         mAddButton.setOnClickListener(new View.OnClickListener() {

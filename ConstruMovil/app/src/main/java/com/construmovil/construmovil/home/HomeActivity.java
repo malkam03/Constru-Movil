@@ -41,15 +41,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        final Button sellerButton = (Button) findViewById(R.id.btn_button_sellers);
-        sellerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, SupplierActivity.class);
-                startActivity(intent);
-            }
-        });
-
         final Button categoryButton = (Button) findViewById(R.id.btn_button_categories);
         categoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
